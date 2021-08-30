@@ -78,8 +78,8 @@ while True:
         print('Artistas cargados: ' + str(numArtists))
         print('Obras cargadas: ' + str(numArtworks))
         print('Últimos tres artistas: ' + '\n' + 
-              str(lt.getElement(catalog['artist'], numArtists-2)) + '\n' +
-              str(lt.getElement(catalog['artist'], numArtists-1)) + '\n' +
+              str(lt.getElement(catalog['artists'], numArtists-2)) + '\n' +
+              str(lt.getElement(catalog['artists'], numArtists-1)) + '\n' +
               str(lt.lastElement(catalog['artists'])))
         print('Últimas tres obras: ' + '\n' + 
               str(lt.getElement(catalog['artworks'], numArtworks-2)) + '\n' +
