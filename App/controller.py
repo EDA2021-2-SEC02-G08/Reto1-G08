@@ -89,6 +89,7 @@ def sortArtworks(catalog):
 
 # Funciones de consulta sobre el catálogo
 
+
 def getArtistsInDateRange(catalog, start_date, end_date):
     """
     Retorna los artistas nacidos en un rango de fechas
