@@ -35,6 +35,20 @@ operación solicitada
 """
 
 
+def initCatalog():
+    """
+    Inicializa el catalogo de libros
+    """
+    return controller.initCatalog()
+
+
+def loadData(catalog):
+    """
+    Carga los libros en la estructura de datos
+    """
+    controller.loadData(catalog)
+
+
 def printMenu():
     print("Bienvenido")
     print("1- Cargar información en el catálogo")
@@ -54,6 +68,22 @@ while True:
     inputs = input('Seleccione una opción para continuar\n')
     if int(inputs[0]) == 1:
         print("Cargando información de los archivos ....")
+        catalog = initCatalog()
+        loadData(catalog)
+        numArtists = lt.size(catalog['artists'])
+        numArtworks = lt.size(catalog['artworks'])
+        print('Artistas cargados: ' + str(numArtists))
+        print('Obras cargadas: ' + str(numArtworks))
+        print('Últimos tres artistas: ' + '\n' + 
+              str(lt.getElement(catalog['artist'], numArtists-2)) + '\n' +
+              str(lt.getElement(catalog['artist'], numArtists-1)) + '\n' +
+              str(lt.lastElement(catalog['artists'])))
+        print('Últimas tres obras: ' + '\n' + 
+              str(lt.getElement(catalog['artworks'], numArtworks-2)) + '\n' +
+              str(lt.getElement(catalog['artworks'], numArtworks-1)) + '\n' +
+              str(lt.lastElement(catalog['artworks'])))
+
+
 
     elif int(inputs[0]) == 2:
         pass

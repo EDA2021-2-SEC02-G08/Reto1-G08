@@ -49,8 +49,8 @@ def newCatalog():
                'nationalities': None,
                'techniques': None}
 
-    catalog['artists'] = lt.newList()
-    catalog['artworks'] = lt.newList()
+    catalog['artists'] = lt.newList(datastructure='ARRAY_LIST')
+    catalog['artworks'] = lt.newList(datastructure='ARRAY_LIST')
 
     return catalog
 
