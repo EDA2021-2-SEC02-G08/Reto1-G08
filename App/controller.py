@@ -31,8 +31,68 @@ El controlador se encarga de mediar entre la vista y el modelo.
 
 # Inicialización del Catálogo de libros
 
+
+def initCatalog():
+    """
+    Llama la función de inicialización del catálogo del model
+    """
+    catalog = model.newCatalog()
+    return catalog
+
+
 # Funciones para la carga de datos
+
+def loadData(catalog):
+    """
+    Carga los datos de los archivos y cargar los datos en la estructura de datos
+    """
+    loadArtists(catalog)
+    loadArtworks(catalog)
+    sortArtists(catalog)
+    sortArtworks(catalog)
+
+
+def loadArtists(catalog):
+    """
+    Carga los artistas del archivo. Por cada artista se toma
+    """
+    artistsfile = cf.data_dir + 'MoMA/Artists-utf8-large.csv'
+    input_file = csv.DictReader(open(artistsfile, encoding='utf-8'))
+    for artist in input_file:
+        model.addBook(catalog, artist)
+
+
+def loadArtworks(catalog):
+    """
+    Carga las obras del archivo. Por cada obra se toma
+    """
+    artworksfile = cf.data_dir + 'MoMA/Artworks-utf8-large.csv'
+    input_file = csv.DictReader(open(artworksfile, encoding='utf-8'))
+    for artwork in input_file:
+        model.addBook(catalog, artwork)
 
 # Funciones de ordenamiento
 
+
+def sortArtists(catalog):
+    """
+    Ordena los artistas por año de nacimiento
+    """
+    model.sortArtists(catalog)
+
+
+def sortArtworks(catalog):
+    """
+    Ordena los artistas por año de nacimiento
+    """
+    model.sortArtworks(catalog)
+
 # Funciones de consulta sobre el catálogo
+
+def getArtistsInDateRange(catalog, start_date, end_date):
+    """
+    Retorna los artistas nacidos en un rango de fechas
+    """
+
+    artistsInRange = model.getArtistsInDateRange(catalog, start_date, end_date)
+    return artistsInRange
