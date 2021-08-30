@@ -31,13 +31,39 @@ from DISClib.Algorithms.Sorting import shellsort as sa
 assert cf
 
 """
-Se define la estructura de un catálogo de videos. El catálogo tendrá dos listas, una para los videos, otra para las categorias de
+Se define la estructura de un catálogo de obras y artisitas. El catálogo
+tendrá dos listas, una para los videos, otra para las categorias de
 los mismos.
 """
 
 # Construccion de modelos
 
+
+def newCatalog():
+    """
+    Inicializa el catálogo de obras y artistas. Crea una lista vacia para
+    guardar todos los artistas y crea una lista vacia para las obras.
+    """
+    catalog = {'artists': None,
+               'artworks': None,
+               'nationalities': None,
+               'techniques': None}
+
+    catalog['artists'] = lt.newList()
+    catalog['artworks'] = lt.newList()
+
+    return catalog
+
 # Funciones para agregar informacion al catalogo
+
+
+def addArtist(catalog, artist):
+    lt.addLast(catalog['artists'], artist)
+
+
+def addArtwork(catalog, artwork):
+    lt.addLast(catalog['artworks'], artwork)
+
 
 # Funciones para creacion de datos
 

@@ -44,12 +44,12 @@ def initCatalog():
 
 def loadData(catalog):
     """
-    Carga los datos de los archivos y cargar los datos en la estructura de datos
+    Carga los datos de los archivos y cargar los datos
     """
     loadArtists(catalog)
     loadArtworks(catalog)
-    sortArtists(catalog)
-    sortArtworks(catalog)
+    # sortArtists(catalog)
+    # sortArtworks(catalog)
 
 
 def loadArtists(catalog):
@@ -59,7 +59,7 @@ def loadArtists(catalog):
     artistsfile = cf.data_dir + 'MoMA/Artists-utf8-large.csv'
     input_file = csv.DictReader(open(artistsfile, encoding='utf-8'))
     for artist in input_file:
-        model.addBook(catalog, artist)
+        model.addArtist(catalog, artist)
 
 
 def loadArtworks(catalog):
@@ -69,31 +69,22 @@ def loadArtworks(catalog):
     artworksfile = cf.data_dir + 'MoMA/Artworks-utf8-large.csv'
     input_file = csv.DictReader(open(artworksfile, encoding='utf-8'))
     for artwork in input_file:
-        model.addBook(catalog, artwork)
+        model.addArtwork(catalog, artwork)
 
-# Funciones de ordenamiento
-
-
-def sortArtists(catalog):
-    """
-    Ordena los artistas por año de nacimiento
-    """
-    model.sortArtists(catalog)
+# # Funciones de ordenamiento
 
 
-def sortArtworks(catalog):
-    """
-    Ordena los artistas por año de nacimiento
-    """
-    model.sortArtworks(catalog)
+# def sortArtists(catalog):
+#     """
+#     Ordena los artistas por año de nacimiento
+#     """
+#     model.sortArtists(catalog)
+
+
+# def sortArtworks(catalog):
+#     """
+#     Ordena los artistas por año de nacimiento
+#     """
+#     model.sortArtworks(catalog)
 
 # Funciones de consulta sobre el catálogo
-
-
-def getArtistsInDateRange(catalog, start_date, end_date):
-    """
-    Retorna los artistas nacidos en un rango de fechas
-    """
-
-    artistsInRange = model.getArtistsInDateRange(catalog, start_date, end_date)
-    return artistsInRange
