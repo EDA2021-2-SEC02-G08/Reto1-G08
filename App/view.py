@@ -57,8 +57,11 @@ def printMenu():
     print("4- Consultar las obras de un artista por técnica")
     print("5- Consultar las obras por la nacionalidad de sus artistas")
     print("6- Consultar el costo de transportar todas las obras de un departamento del MoMA")
+    print("0- Salir")
+
 
 catalog = None
+
 
 """
 Menu principal
@@ -82,8 +85,6 @@ while True:
               str(lt.getElement(catalog['artworks'], numArtworks-2)) + '\n' +
               str(lt.getElement(catalog['artworks'], numArtworks-1)) + '\n' +
               str(lt.lastElement(catalog['artworks'])))
-
-
 
     elif int(inputs[0]) == 2:
         pass
