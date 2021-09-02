@@ -45,12 +45,13 @@ def newCatalog():
     guardar todos los artistas y crea una lista vacia para las obras.
     """
     catalog = {'artists': None,
-               'artworks': None,
-               'nationalities': None,
-               'techniques': None}
+               'id': None,
+               'artworks': None}
 
     catalog['artists'] = lt.newList(datastructure='ARRAY_LIST')
+    catalog['id'] = lt.newList(datastructure='ARRAY_LIST')
     catalog['artworks'] = lt.newList(datastructure='ARRAY_LIST')
+
 
     return catalog
 
@@ -65,7 +66,17 @@ def addArtwork(catalog, artwork):
     lt.addLast(catalog['artworks'], artwork)
 
 
+def createID(catalog, artwork):
+    artwork_id = artwork['ObjectID']
+    artists_id = artwork['ConstituentID'].split(', ')
+
+    for artist in artists_id:
+        id = artwork_id + '-' + artist
+        lt.addLast(catalog['id'], id)
+
+
 # Funciones para creacion de datos
+
 
 # Funciones de consulta
 
