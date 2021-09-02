@@ -68,10 +68,16 @@ def addArtwork(catalog, artwork):
 
 def createID(catalog, artwork):
     artwork_id = artwork['ObjectID']
-    artists_id = artwork['ConstituentID'].split(', ')
+    artists_id = artwork['ConstituentID'].replace('[', '').replace(']', '')
+    lista = []
 
-    for artist in artists_id:
-        id = artwork_id + '-' + artist
+    if ',' in artists_id:
+        lista = artists_id.split(', ')
+        for artist in lista:
+            id = artwork_id + '-' + artist
+            lt.addLast(catalog['id'], id)
+    else:
+        id = artwork_id + '-' + artists_id
         lt.addLast(catalog['id'], id)
 
 
