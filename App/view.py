@@ -56,7 +56,7 @@ def printMenu():
     print("3- Consultar la fecha de adquisición de las obras en un rango de tiempo")
     print("4- Consultar las obras de un artista por técnica")
     print("5- Consultar las obras por la nacionalidad de sus artistas")
-    print("6- Consultar el costo de transportar todas las obras de un departamento del MoMA")
+    print("6- Consultar el costo de transportar las obras de un departamento del MoMA")
     print("0- Salir")
 
 
