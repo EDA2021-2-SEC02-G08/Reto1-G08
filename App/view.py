@@ -51,10 +51,10 @@ def loadData(catalog):
 
 def printMenu():
     print("Bienvenido")
-    print("1- Cargar información en el catálogo")
+    print("1- Cargar informacion en el catálogo")
     print("2- Consultar el nacimiento de los artistas en un rango de tiempo")
-    print("3- Consultar la fecha de adquisición de las obras en un rango de tiempo")
-    print("4- Consultar las obras de un artista por técnica")
+    print("3- Consultar la fecha de adquisicion de las obras en un rango de tiempo")
+    print("4- Consultar las obras de un artista por tecnica")
     print("5- Consultar las obras por la nacionalidad de sus artistas")
     print("6- Consultar el costo de transportar las obras de un departamento del MoMA")
     print("0- Salir")
@@ -77,14 +77,7 @@ while True:
         numArtworks = lt.size(catalog['artworks'])
         print('Artistas cargados: ' + str(numArtists))
         print('Obras cargadas: ' + str(numArtworks))
-        print('Últimos tres artistas: ' + '\n' + 
-              str(lt.getElement(catalog['artists'], numArtists-2)) + '\n' +
-              str(lt.getElement(catalog['artists'], numArtists-1)) + '\n' +
-              str(lt.lastElement(catalog['artists'])))
-        print('Últimas tres obras: ' + '\n' + 
-              str(lt.getElement(catalog['artworks'], numArtworks-2)) + '\n' +
-              str(lt.getElement(catalog['artworks'], numArtworks-1)) + '\n' +
-              str(lt.lastElement(catalog['artworks'])))
+        print(lt.getElement(catalog['id'], 10))
 
     elif int(inputs[0]) == 2:
         pass
@@ -99,8 +92,8 @@ while True:
         pass
 
     elif int(inputs[0]) == 6:
-        pass
-
+        pass 
     else:
         sys.exit(0)
+
 sys.exit(0)
