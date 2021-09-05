@@ -68,7 +68,22 @@ def addArtwork(catalog, artwork):
     lt.addLast(catalog['artworks'], artwork)
 
 
+def addID(catalog, artwork):
+    artwork_id = artwork['ObjectID']
+    artists_id = artwork['ConstituentID'].replace('[', '').replace(']', '')
+
+    if ',' in artists_id:
+        lista = artists_id.split(', ')
+        for artist in lista:
+            id = artwork_id + '-' + artist
+            lt.addLast(catalog['id'], id)
+    else:
+        id = artwork_id + '-' + artists_id
+        lt.addLast(catalog['id'], id)
+
+
 # Funciones para creacion de datos
+
 
 def newArtist(artist):
     """
@@ -85,25 +100,6 @@ def newArtist(artist):
     data_artist['beginDate'] = artist['BeginDate']
 
     return data_artist
-
-
-def create_addID(catalog, artwork):
-    """
-    Crea un nuevo id en el que se relaciona el id del artwork y el del artist.
-    Este nuevo id se adiciona a la lista id del catálogo.
-    """
-    artwork_id = artwork['ObjectID']
-    artists_id = artwork['ConstituentID'].replace('[', '').replace(']', '')
-    lista = []
-
-    if ',' in artists_id:
-        lista = artists_id.split(', ')
-        for artist in lista:
-            id = artwork_id + '-' + artist
-            lt.addLast(catalog['id'], id)
-    else:
-        id = artwork_id + '-' + artists_id
-        lt.addLast(catalog['id'], id)
 
 
 # Funciones de consulta
