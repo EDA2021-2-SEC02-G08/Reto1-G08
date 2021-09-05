@@ -65,7 +65,8 @@ def addArtist(catalog, artist):
 
 
 def addArtwork(catalog, artwork):
-    lt.addLast(catalog['artworks'], artwork)
+    data_artwork = newArtWork(artwork)
+    lt.addLast(catalog['artworks'], data_artwork)
 
 
 def addID(catalog, artwork):
@@ -87,7 +88,7 @@ def addID(catalog, artwork):
 
 def newArtist(artist):
     """
-    Crea una nueva estructura para modelar los datos de cada artista
+    Crea una nueva estructura para modelar los datos relevantes de cada artista
     """
     data_artist = {'id': None, 
                    'name': None, 
@@ -100,6 +101,29 @@ def newArtist(artist):
     data_artist['beginDate'] = artist['BeginDate']
 
     return data_artist
+
+
+def newArtWork(artwork):
+    """
+    Crea una nueva estructura para modelar los datos relevantes de cada obra
+    """
+    data_artWork = {'id': artwork['ObjectID'], 
+                   'title': artwork['Title'],
+                   'date': artwork['Date'], 
+                   'medium': artwork['Medium'],
+                   'dimensions': artwork['Dimensions'], 
+                   'creditLine': artwork['CreditLine'],
+                   'department': artwork['Department'],
+                   'dateAcquired': artwork['DateAcquired'],
+                   'weight (kg)': artwork['Weight (kg)'],
+                   'circumference (cm)': artwork['Circumference (cm)'],
+                   'depth (cm)': artwork['Depth (cm)'],
+                   'diameter (cm)': artwork['Diameter (cm)'],
+                   'height (cm)': artwork['Height (cm)'],
+                   'lenght (cm)': artwork['Length (cm)'],
+                   'width (cm)': artwork['Width (cm)']}
+
+    return data_artWork
 
 
 # Funciones de consulta

@@ -91,7 +91,7 @@ while True:
         numArtworks = lt.size(catalog['artworks'])
         print('Artistas cargados: ' + str(numArtists))
         print('Obras cargadas: ' + str(numArtworks))
-        print(catalog['artists'])
+        print(catalog['artworks'])
 
     elif int(inputs[0]) == 2:
         inicial = int(input('Ingrese el año inicial: '))
