@@ -29,7 +29,8 @@ import csv
 El controlador se encarga de mediar entre la vista y el modelo.
 """
 
-# Inicialización del Catálogo de libros
+
+# Inicialización del catálogo de libros
 
 
 def initCatalog():
@@ -41,6 +42,7 @@ def initCatalog():
 
 
 # Funciones para la carga de datos
+
 
 def loadData(catalog):
     """
@@ -54,7 +56,7 @@ def loadData(catalog):
 
 def loadArtists(catalog):
     """
-    Carga los artistas del archivo. Por cada artista se toma
+    Carga los artistas del archivo.
     """
     artistsfile = cf.data_dir + 'MoMA/Artists-utf8-small.csv'
     input_file = csv.DictReader(open(artistsfile, encoding='utf-8'))
@@ -64,7 +66,7 @@ def loadArtists(catalog):
 
 def loadArtworks(catalog):
     """
-    Carga las obras del archivo. Por cada obra se toma
+    Carga las obras del archivo.
     """
     artworksfile = cf.data_dir + 'MoMA/Artworks-utf8-small.csv'
     input_file = csv.DictReader(open(artworksfile, encoding='utf-8'))
@@ -73,20 +75,21 @@ def loadArtworks(catalog):
         model.createID(catalog, artwork)
 
 
-# # Funciones de ordenamiento
+# Funciones de ordenamiento
 
 
-# def sortArtists(catalog):
-#     """
-#     Ordena los artistas por año de nacimiento
-#     """
-#     model.sortArtists(catalog)
+def sortArtists(catalog):
+    """
+    Ordena los artistas por año de nacimiento
+    """
+    model.sortArtists(catalog)
 
 
-# def sortArtworks(catalog):
-#     """
-#     Ordena los artistas por año de nacimiento
-#     """
-#     model.sortArtworks(catalog)
+def sortArtworks(catalog):
+    """
+    Ordena las obras de arte por año de adquisición
+    """
+    model.sortArtworks(catalog)
+
 
 # Funciones de consulta sobre el catálogo
