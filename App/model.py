@@ -27,14 +27,15 @@
 
 import config as cf
 from DISClib.ADT import list as lt
-from DISClib.Algorithms.Sorting import shellsort as sa
 assert cf
+
 
 """
 Se define la estructura de un catálogo de obras y artisitas. El catálogo
 tendrá dos listas, una para los videos, otra para las categorias de
 los mismos.
 """
+
 
 # Construccion de modelos
 
@@ -52,8 +53,8 @@ def newCatalog():
     catalog['id'] = lt.newList(datastructure='ARRAY_LIST')
     catalog['artworks'] = lt.newList(datastructure='ARRAY_LIST')
 
-
     return catalog
+
 
 # Funciones para agregar informacion al catalogo
 
@@ -66,14 +67,21 @@ def addArtwork(catalog, artwork):
     lt.addLast(catalog['artworks'], artwork)
 
 
-def createID(catalog, artwork):
+# Funciones para creacion de datos
+
+
+def create_addID(catalog, artwork):
+    """
+    Crea un nuevo id en el que se relaciona el id del artwork y el del artist.
+    Este nuevo id se adiciona a la lista id del catálogo.
+    """
     artwork_id = artwork['ObjectID']
     artists_id = artwork['ConstituentID'].replace('[', '').replace(']', '')
-    lista = []
+    lista = lt.newList(datastructure='ARRAY_LIST')
 
     if ',' in artists_id:
         lista = artists_id.split(', ')
-        for artist in lista:
+        for artist in lt.iterator(lista):
             id = artwork_id + '-' + artist
             lt.addLast(catalog['id'], id)
     else:
@@ -81,11 +89,18 @@ def createID(catalog, artwork):
         lt.addLast(catalog['id'], id)
 
 
-# Funciones para creacion de datos
-
-
 # Funciones de consulta
+
 
 # Funciones utilizadas para comparar elementos dentro de una lista
 
+
 # Funciones de ordenamiento
+
+
+def sortArtists(catalog):
+    pass
+
+
+def sortArtWorks(catalog):
+    pass

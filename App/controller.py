@@ -50,8 +50,8 @@ def loadData(catalog):
     """
     loadArtists(catalog)
     loadArtworks(catalog)
-    # sortArtists(catalog)
-    # sortArtworks(catalog)
+    sortArtists(catalog)
+    sortArtworks(catalog)
 
 
 def loadArtists(catalog):
@@ -72,7 +72,7 @@ def loadArtworks(catalog):
     input_file = csv.DictReader(open(artworksfile, encoding='utf-8'))
     for artwork in input_file:
         model.addArtwork(catalog, artwork)
-        model.createID(catalog, artwork)
+        model.create_addID(catalog, artwork)
 
 
 # Funciones de ordenamiento
@@ -89,7 +89,8 @@ def sortArtworks(catalog):
     """
     Ordena las obras de arte por año de adquisición
     """
-    model.sortArtworks(catalog)
+    model.sortArtWorks(catalog)
 
 
 # Funciones de consulta sobre el catálogo
+
