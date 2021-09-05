@@ -49,8 +49,8 @@ def loadData(catalog):
     controller.loadData(catalog)
 
 
-def printArtistData(author):
-    if author:
+def printArtistData(artist):
+    if artist:
         pass
     else:
         print('No existe un artista en este rango de tiempo')
@@ -82,6 +82,7 @@ Menu principal
 while True:
     printMenu()
     inputs = input('Seleccione una opción para continuar\n')
+
     if int(inputs[0]) == 1:
         print('Cargando información de los archivos ....')
         catalog = initCatalog()
@@ -90,8 +91,8 @@ while True:
         numArtworks = lt.size(catalog['artworks'])
         print('Artistas cargados: ' + str(numArtists))
         print('Obras cargadas: ' + str(numArtworks))
-        print(lt.getElement(catalog['id'], 10))
-
+        print(lt.getElement(catalog['artists'], 1))
+        
     elif int(inputs[0]) == 2:
         inicial = int(input('Ingrese el año inicial: '))
         final = int(input('Ingrese el año final: '))

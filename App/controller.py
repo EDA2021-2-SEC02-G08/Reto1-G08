@@ -93,4 +93,3 @@ def sortArtworks(catalog):
 
 
 # Funciones de consulta sobre el catálogo
-

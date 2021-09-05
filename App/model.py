@@ -60,7 +60,8 @@ def newCatalog():
 
 
 def addArtist(catalog, artist):
-    lt.addLast(catalog['artists'], artist)
+    data_artist = newArtist(artist)
+    lt.addLast(catalog['artists'], data_artist)
 
 
 def addArtwork(catalog, artwork):
@@ -68,6 +69,22 @@ def addArtwork(catalog, artwork):
 
 
 # Funciones para creacion de datos
+
+def newArtist(artist):
+    """
+    Crea una nueva estructura para modelar los datos de cada artista
+    """
+    data_artist = {'id': None, 
+                   'name': None, 
+                   'nationality': None, 
+                   'beginDate': None}
+    
+    data_artist['id'] = artist['ConstituentID']
+    data_artist['name'] = artist['DisplayName']
+    data_artist['nationality'] = artist['Nationality']
+    data_artist['beginDate'] = artist['BeginDate']
+
+    return data_artist
 
 
 def create_addID(catalog, artwork):
@@ -77,11 +94,11 @@ def create_addID(catalog, artwork):
     """
     artwork_id = artwork['ObjectID']
     artists_id = artwork['ConstituentID'].replace('[', '').replace(']', '')
-    lista = lt.newList(datastructure='ARRAY_LIST')
+    lista = []
 
     if ',' in artists_id:
         lista = artists_id.split(', ')
-        for artist in lt.iterator(lista):
+        for artist in lista:
             id = artwork_id + '-' + artist
             lt.addLast(catalog['id'], id)
     else:
