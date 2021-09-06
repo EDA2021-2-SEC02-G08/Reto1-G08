@@ -93,11 +93,13 @@ def newArtist(artist):
     data_artist = {'id': None, 
                    'name': None, 
                    'nationality': None, 
+                   'gender': None,
                    'beginDate': None}
     
     data_artist['id'] = artist['ConstituentID']
     data_artist['name'] = artist['DisplayName']
     data_artist['nationality'] = artist['Nationality']
+    data_artist['gender'] = artist['Gender']
     data_artist['beginDate'] = artist['BeginDate']
 
     return data_artist
@@ -128,8 +130,25 @@ def newArtWork(artwork):
 
 # Funciones de consulta
 
+def getArtists(catalog, año_inicial, año_final):
+    lista = lt.newList(datastructure='ARRAY_LIST')
+
+    for artist in lt.iterator(catalog['artists']):
+        if artist['beginDate'] in range(año_inicial, año_final + 1):
+            lt.addLast(lista, artist)
+
+    return lista
+    
+
+def getArtWork(catalog, fecha_inicial, fecha_final):
+    pass
+
 
 # Funciones utilizadas para comparar elementos dentro de una lista
+
+
+def compareArtists(artist1, artist2):
+    return (int(artist1['beginDate']) > int(artist2['beginDate']))
 
 
 # Funciones de ordenamiento

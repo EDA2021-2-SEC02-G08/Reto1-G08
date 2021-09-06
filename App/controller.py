@@ -93,3 +93,19 @@ def sortArtworks(catalog):
 
 
 # Funciones de consulta sobre el catálogo
+
+
+def getArtists(catalog, año_inicial, año_final):
+    """
+    Retorna los artistas según su año de nacimiento
+    """
+    artists = model.getArtists(catalog, año_inicial, año_final)
+    return artists
+
+
+def getArtWork(catalog, fecha_inicial, fecha_final):
+    """
+    Retorna las obras según su fecha de adquisición
+    """
+    artwork = model.getArtWork(catalog, fecha_inicial, fecha_final)
+    return artwork

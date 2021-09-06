@@ -49,9 +49,13 @@ def loadData(catalog):
     controller.loadData(catalog)
 
 
-def printArtistData(artist):
+def printArtist(artist):
     if artist:
-        pass
+        for artist in lt.iterator(artist):
+            print('nombre: ' + artist['name'] + 
+                  ', año_nacimiento: ' + artist['beginDate'] + 
+                  ', nacionalidad: ' + artist['nationality'] + 
+                  ', genero: ' + artist['gender'])
     else:
         print('No existe un artista en este rango de tiempo')
 
@@ -62,12 +66,11 @@ def printArtWorkData(artwork):
 
 def printMenu():
     print("Bienvenido")
-    print("1- Cargar informacion en el catálogo")
-    print("2- Consultar los artistas segun su fecha de nacimiento")
-    print("3- Consultar las obras segun su fecha de adquisicion")
-    print("4- Consultar las obras de un artista por tecnica")
-    print("5- Consultar las obras por la nacionalidad de sus artistas")
-    print("6- Consultar el costo de transportar las obras")
+    print("1- Consultar los artistas segun su año de nacimiento")
+    print("2- Consultar las obras segun su fecha de adquisicion")
+    print("3- Consultar las obras de un artista por tecnica")
+    print("4- Consultar las obras por la nacionalidad de sus artistas")
+    print("5- Consultar el costo de transportar las obras")
     print("0- Salir")
 
 
@@ -81,21 +84,21 @@ Menu principal
 
 while True:
     printMenu()
-    inputs = input('Seleccione una opción para continuar\n')
+    catalog = initCatalog()
+    loadData(catalog)
+    print('\nArtistas cargados: ' + str(lt.size(catalog['artists'])))
+    print('Obras cargadas: ' + str(lt.size(catalog['artworks'])))
+    #print(catalog['artists'])
+    inputs = input('\nSeleccione una opción para continuar\n')
 
     if int(inputs[0]) == 1:
-        print('Cargando información de los archivos ....')
-        catalog = initCatalog()
-        loadData(catalog)
-        numArtists = lt.size(catalog['artists'])
-        numArtworks = lt.size(catalog['artworks'])
-        print('Artistas cargados: ' + str(numArtists))
-        print('Obras cargadas: ' + str(numArtworks))
-        print(catalog['artworks'])
+        año_inicial = int(input('Ingrese el año inicial: '))
+        año_final = int(input('Ingrese el año final: '))
+        print(controller.getArtists(catalog, año_inicial, año_final))
 
     elif int(inputs[0]) == 2:
-        inicial = int(input('Ingrese el año inicial: '))
-        final = int(input('Ingrese el año final: '))
+        fecha_inicial = int(input('Ingrese la fecha inicial (AAAA-MM-DD): '))
+        fecha_final = int(input('Ingrese la fecha final (AAAA-MM-DD): '))
 
     elif int(inputs[0]) == 3:
         pass
@@ -104,9 +107,6 @@ while True:
         pass
 
     elif int(inputs[0]) == 5:
-        pass
-
-    elif int(inputs[0]) == 6:
         pass 
 
     else:
