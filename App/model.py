@@ -130,15 +130,10 @@ def newArtWork(artwork):
 
 # Funciones de consulta
 
+
 def getArtists(catalog, año_inicial, año_final):
-    lista = lt.newList(datastructure='ARRAY_LIST')
+    pass
 
-    for artist in lt.iterator(catalog['artists']):
-        if artist['beginDate'] in range(año_inicial, año_final + 1):
-            lt.addLast(lista, artist)
-
-    return lista
-    
 
 def getArtWork(catalog, fecha_inicial, fecha_final):
     pass
