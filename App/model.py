@@ -60,13 +60,11 @@ def newCatalog():
 
 
 def addArtist(catalog, artist):
-    data_artist = newArtist(artist)
-    lt.addLast(catalog['artists'], data_artist)
+    lt.addLast(catalog['artists'], artist)
 
 
 def addArtwork(catalog, artwork):
-    data_artwork = newArtWork(artwork)
-    lt.addLast(catalog['artworks'], data_artwork)
+    lt.addLast(catalog['artworks'], artwork)
 
 
 def addID(catalog, artwork):
@@ -84,48 +82,6 @@ def addID(catalog, artwork):
 
 
 # Funciones para creacion de datos
-
-
-def newArtist(artist):
-    """
-    Crea una nueva estructura para modelar los datos relevantes de cada artista
-    """
-    data_artist = {'id': None, 
-                   'name': None, 
-                   'nationality': None, 
-                   'gender': None,
-                   'beginDate': None}
-    
-    data_artist['id'] = artist['ConstituentID']
-    data_artist['name'] = artist['DisplayName']
-    data_artist['nationality'] = artist['Nationality']
-    data_artist['gender'] = artist['Gender']
-    data_artist['beginDate'] = artist['BeginDate']
-
-    return data_artist
-
-
-def newArtWork(artwork):
-    """
-    Crea una nueva estructura para modelar los datos relevantes de cada obra
-    """
-    data_artWork = {'id': artwork['ObjectID'], 
-                   'title': artwork['Title'],
-                   'date': artwork['Date'], 
-                   'medium': artwork['Medium'],
-                   'dimensions': artwork['Dimensions'], 
-                   'creditLine': artwork['CreditLine'],
-                   'department': artwork['Department'],
-                   'dateAcquired': artwork['DateAcquired'],
-                   'weight (kg)': artwork['Weight (kg)'],
-                   'circumference (cm)': artwork['Circumference (cm)'],
-                   'depth (cm)': artwork['Depth (cm)'],
-                   'diameter (cm)': artwork['Diameter (cm)'],
-                   'height (cm)': artwork['Height (cm)'],
-                   'lenght (cm)': artwork['Length (cm)'],
-                   'width (cm)': artwork['Width (cm)']}
-
-    return data_artWork
 
 
 # Funciones de consulta
