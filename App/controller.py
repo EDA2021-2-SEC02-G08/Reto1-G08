@@ -33,11 +33,11 @@ El controlador se encarga de mediar entre la vista y el modelo.
 # Inicialización del catálogo de libros
 
 
-def initCatalog():
+def initCatalog(datastructure):
     """
     Llama la función de inicialización del catálogo del model
     """
-    catalog = model.newCatalog()
+    catalog = model.newCatalog(datastructure)
     return catalog
 
 
@@ -50,8 +50,6 @@ def loadData(catalog):
     """
     loadArtists(catalog)
     loadArtworks(catalog)
-    # sortArtists(catalog)
-    # sortArtworks(catalog)
 
 
 def loadArtists(catalog):
@@ -78,18 +76,11 @@ def loadArtworks(catalog):
 # Funciones de ordenamiento
 
 
-def sortArtists(catalog):
-    """
-    Ordena los artistas por año de nacimiento
-    """
-    model.sortArtists(catalog)
-
-
-def sortArtworks(catalog):
+def sortArtworks(catalog, size, sort):
     """
     Ordena las obras de arte por año de adquisición
     """
-    model.sortArtworks(catalog)
+    model.sortArtworks(catalog, size, sort)
 
 
 # Funciones de consulta sobre el catálogo

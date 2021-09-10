@@ -26,8 +26,12 @@
 
 
 import config as cf
+import time
 from DISClib.ADT import list as lt
 from DISClib.Algorithms.Sorting import shellsort as sa
+from DISClib.Algorithms.Sorting import insertionsort as ins
+from DISClib.Algorithms.Sorting import mergesort as mg
+from DISClib.Algorithms.Sorting import quicksort as qk
 assert cf
 
 """
@@ -39,7 +43,7 @@ los mismos.
 # Construccion de modelos
 
 
-def newCatalog():
+def newCatalog(datastructure):
     """
     Inicializa el catálogo de obras y artistas. Crea una lista vacia para
     guardar todos los artistas y crea una lista vacia para las obras.
@@ -48,12 +52,12 @@ def newCatalog():
                'id': None,
                'artworks': None}
 
-    catalog['artists'] = lt.newList(datastructure='ARRAY_LIST')
-    catalog['id'] = lt.newList(datastructure='ARRAY_LIST')
-    catalog['artworks'] = lt.newList(datastructure='ARRAY_LIST')
-
+    catalog['artists'] = lt.newList(datastructure)
+    catalog['id'] = lt.newList(datastructure)
+    catalog['artworks'] = lt.newList(datastructure)
 
     return catalog
+
 
 # Funciones para agregar informacion al catalogo
 
@@ -81,11 +85,40 @@ def createID(catalog, artwork):
         lt.addLast(catalog['id'], id)
 
 
-# Funciones para creacion de datos
-
-
-# Funciones de consulta
-
 # Funciones utilizadas para comparar elementos dentro de una lista
 
+
+def cmpArtworkByDateAcquired(artwork1, artwork2):
+    """
+    Devuelve verdadero (True) si el 'DateAcquired' de artwork1
+    es menor que el de artwork2.
+    Args: 
+        artwork1: información de la primera obra con su valor 'DateAcquired'.
+        artwork2: información de la segunda obra con su valor 'DateAcquired'.
+    """
+    artwork1 = artwork1['DateAcquired'].replace('-', '')
+    artwork2 = artwork2['DateAcquired'].replace('-', '')
+
+    return int(artwork1) < int(artwork2)
+        
+
 # Funciones de ordenamiento
+
+def sortArtworks(catalog, size, sort):
+    sub_list = lt.subList(catalog['artworks'], 1, size)
+    sub_list = sub_list.copy()
+    start_time = time.process_time()
+
+    if 'insertion' in sort.lower():
+        ins.sort(sub_list, cmpArtworkByDateAcquired)
+    elif 'shell' in sort.lower():
+        sa.sort(sub_list, cmpArtworkByDateAcquired)
+    elif 'merge' in sort.lower():
+        mg.sort(sub_list, cmpArtworkByDateAcquired)
+    elif 'quick' in sort.lower():
+        qk.sort(sub_list, cmpArtworkByDateAcquired)
+
+    stop_time = time.process_time()
+    elapsed_time_mseg = (stop_time - start_time) * 1000
+    
+    return elapsed_time_mseg

@@ -35,11 +35,11 @@ operación solicitada
 """
 
 
-def initCatalog():
+def initCatalog(datastructure):
     """
     Inicializa el catalogo de libros
     """
-    return controller.initCatalog()
+    return controller.initCatalog(datastructure)
 
 
 def loadData(catalog):
@@ -51,12 +51,8 @@ def loadData(catalog):
 
 def printMenu():
     print("Bienvenido")
-    print("1- Cargar informacion en el catálogo")
-    print("2- Consultar el nacimiento de los artistas en un rango de tiempo")
-    print("3- Consultar la fecha de adquisicion de las obras en un rango de tiempo")
-    print("4- Consultar las obras de un artista por tecnica")
-    print("5- Consultar las obras por la nacionalidad de sus artistas")
-    print("6- Consultar el costo de transportar las obras de un departamento del MoMA")
+    print("1- Seleccionar la estructura de datos")
+    print("2- Ordenar las obras de arte por fecha de adquisición")
     print("0- Salir")
 
 
@@ -70,32 +66,19 @@ Menu principal
 
 while True:
     printMenu()
-    inputs = input('Seleccione una opción para continuar\n')
+    inputs = input('\nSeleccione una opción para continuar\n')
+
     if int(inputs[0]) == 1:
-        print("Cargando información de los archivos ....")
-        catalog = initCatalog()
+        datastructure = str(input('Seleccione la estructura de datos (ARRAY_LIST / LINKED_LIST): '))
+        catalog = initCatalog(datastructure)
         loadData(catalog)
-        numArtists = lt.size(catalog['artists'])
-        numArtworks = lt.size(catalog['artworks'])
-        print('Artistas cargados: ' + str(numArtists))
-        print('Obras cargadas: ' + str(numArtworks))
-        print(lt.getElement(catalog['id'], 10))
-
+        print('\nCargando información de los archivos...')
+        print('Artistas cargados: ' + str(lt.size(catalog['artists'])))
+        print('Obras cargadas: ' + str(lt.size(catalog['artworks'])))
     elif int(inputs[0]) == 2:
-        pass
-
-    elif int(inputs[0]) == 3:
-        pass
-
-    elif int(inputs[0]) == 4:
-        pass
-
-    elif int(inputs[0]) == 5:
-        pass
-
-    elif int(inputs[0]) == 6:
-        pass 
-    else:
-        sys.exit(0)
+        size = int(input('Indique tamaño de la muestra: '))
+        sort = str(input('Indique el algoritmo de ordenamiento iterativo: '))
+        result = controller.sortArtworks(catalog, size, sort)
+        print('Para la muestra de', size, 'elementos, el tiempo (mseg) es:', result)
 
 sys.exit(0)
