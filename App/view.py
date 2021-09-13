@@ -80,8 +80,8 @@ while True:
         size = int(input('Indique tamaño de la muestra: '))
         sort = str(input('Indique el algoritmo de ordenamiento iterativo: '))
         result = controller.sortArtworks(catalog, sort, size)
-        print(result[0])
-        print(result[1])
+        print("Para la muestra de", size, "elementos, el tiempo (mseg) es: ",
+                                          str(result[0]))     
         
 
 sys.exit(0)
