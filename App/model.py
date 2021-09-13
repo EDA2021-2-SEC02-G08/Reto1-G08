@@ -99,6 +99,14 @@ def getArtWork(catalog, fecha_inicial, fecha_final):
 
 
 def cmpArtists(artist1, artist2):
+    """
+    Devuelve True si el 'beginDate' de artist1
+    es menor que el de artist2.
+    Args: 
+        artist1: información de la primera obra con su valor 'beginDate'.
+        artist2: información de la segunda obra con su valor 'beginDate'.
+    """
+    
     return (int(artist1['beginDate']) > int(artist2['beginDate']))
 
 
