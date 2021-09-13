@@ -80,7 +80,7 @@ def sortArtworks(catalog, size):
     """
     Ordena las obras de arte por año de adquisición
     """
-    model.sortArtworks(catalog, size)
+    return model.sortArtworks(catalog, size)
 
 
 # Funciones de consulta sobre el catálogo

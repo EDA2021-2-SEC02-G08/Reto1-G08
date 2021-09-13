@@ -69,19 +69,19 @@ while True:
     inputs = input('\nSeleccione una opción para continuar\n')
 
     if int(inputs[0]) == 1:
-        #datastructure = str(input('Seleccione la estructura de datos (ARRAY_LIST / LINKED_LIST): '))
-        catalog = initCatalog(datastructure = 'ARRAY_LIST')
+        datastructure = input('Seleccione la estructura de datos (ARRAY_LIST / LINKED_LIST): ')
+        catalog = initCatalog(str(datastructure))
         loadData(catalog)
         print('\nCargando información de los archivos...')
         print('Artistas cargados: ' + str(lt.size(catalog['artists'])))
         print('Obras cargadas: ' + str(lt.size(catalog['artworks'])))
-        x = lt.getElement(catalog['artworks'], 31)
-        print(x)
-        print(x['DateAcquired'])
+
     elif int(inputs[0]) == 2:
         size = int(input('Indique tamaño de la muestra: '))
-        #sort = str(input('Indique el algoritmo de ordenamiento iterativo: '))
-        result = controller.sortArtworks(catalog, size)
-        print(result)
+        sort = str(input('Indique el algoritmo de ordenamiento iterativo: '))
+        result = controller.sortArtworks(catalog, sort, size)
+        print(result[0])
+        print(result[1])
+        
 
 sys.exit(0)

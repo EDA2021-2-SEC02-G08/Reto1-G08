@@ -89,7 +89,7 @@ def createID(catalog, artwork):
 # Funciones utilizadas para comparar elementos dentro de una lista
 
 
-def cmpArtworkByDateAcquired(artwork1, artwork2):
+def cmpArtwork(artwork1, artwork2):
     """
     Devuelve True si el 'DateAcquired' de artwork1
     es menor que el de artwork2.
@@ -97,37 +97,32 @@ def cmpArtworkByDateAcquired(artwork1, artwork2):
         artwork1: información de la primera obra con su valor 'DateAcquired'.
         artwork2: información de la segunda obra con su valor 'DateAcquired'.
     """
-    """
     if artwork1['DateAcquired'] == '' or artwork2['DateAcquired'] == '':
-        pass
+        return False
     else:
-    """
-    artwork1 = date.fromisoformat(artwork1['DateAcquired'])
-    artwork2 = date.fromisoformat(artwork2['DateAcquired'])
-    return artwork1 < artwork2
+        artwork1 = date.fromisoformat(artwork1['DateAcquired'])
+        artwork2 = date.fromisoformat(artwork2['DateAcquired'])
+        return artwork1 < artwork2
         
 
 # Funciones de ordenamiento
 
 
-def sortArtworks(catalog, size):
-    sub_list = lt.subList(catalog['artworks'], 1, size)
+def sortArtworks(catalog, sort, size):
+    sub_list = lt.subList(catalog['artworks'], 0, size)
     sub_list = sub_list.copy()
     start_time = time.process_time()
-    sorted_list = ins.sort(sub_list, cmpArtworkByDateAcquired)
 
-    """
     if 'insertion' in sort.lower():
-        ins.sort(sub_list, cmpArtworkByDateAcquired)
+        sorted_list = ins.sort(sub_list, cmpArtwork)
     elif 'shell' in sort.lower():
-        sa.sort(sub_list, cmpArtworkByDateAcquired)
+        sorted_list = sa.sort(sub_list, cmpArtwork)
     elif 'merge' in sort.lower():
-        mg.sort(sub_list, cmpArtworkByDateAcquired)
+        sorted_list = mg.sort(sub_list, cmpArtwork)
     elif 'quick' in sort.lower():
-        qk.sort(sub_list, cmpArtworkByDateAcquired)
-    """
+        sorted_list = qk.sort(sub_list, cmpArtwork)
 
     stop_time = time.process_time()
-    elapsed_time_mseg = (stop_time - start_time) * 1000
-    
+    elapsed_time_mseg = (stop_time - start_time)*1000
+
     return elapsed_time_mseg, sorted_list
