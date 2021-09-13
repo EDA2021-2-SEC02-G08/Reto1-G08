@@ -26,6 +26,7 @@
 
 
 import config as cf
+from datetime import date
 import time
 from DISClib.ADT import list as lt
 from DISClib.Algorithms.Sorting import shellsort as sa
@@ -90,25 +91,32 @@ def createID(catalog, artwork):
 
 def cmpArtworkByDateAcquired(artwork1, artwork2):
     """
-    Devuelve verdadero (True) si el 'DateAcquired' de artwork1
+    Devuelve True si el 'DateAcquired' de artwork1
     es menor que el de artwork2.
     Args: 
         artwork1: información de la primera obra con su valor 'DateAcquired'.
         artwork2: información de la segunda obra con su valor 'DateAcquired'.
     """
-    artwork1 = artwork1['DateAcquired'].replace('-', '')
-    artwork2 = artwork2['DateAcquired'].replace('-', '')
-
-    return int(artwork1) < int(artwork2)
+    """
+    if artwork1['DateAcquired'] == '' or artwork2['DateAcquired'] == '':
+        pass
+    else:
+    """
+    artwork1 = date.fromisoformat(artwork1['DateAcquired'])
+    artwork2 = date.fromisoformat(artwork2['DateAcquired'])
+    return artwork1 < artwork2
         
 
 # Funciones de ordenamiento
 
-def sortArtworks(catalog, size, sort):
+
+def sortArtworks(catalog, size):
     sub_list = lt.subList(catalog['artworks'], 1, size)
     sub_list = sub_list.copy()
     start_time = time.process_time()
+    sorted_list = ins.sort(sub_list, cmpArtworkByDateAcquired)
 
+    """
     if 'insertion' in sort.lower():
         ins.sort(sub_list, cmpArtworkByDateAcquired)
     elif 'shell' in sort.lower():
@@ -117,8 +125,9 @@ def sortArtworks(catalog, size, sort):
         mg.sort(sub_list, cmpArtworkByDateAcquired)
     elif 'quick' in sort.lower():
         qk.sort(sub_list, cmpArtworkByDateAcquired)
+    """
 
     stop_time = time.process_time()
     elapsed_time_mseg = (stop_time - start_time) * 1000
     
-    return elapsed_time_mseg
+    return elapsed_time_mseg, sorted_list
