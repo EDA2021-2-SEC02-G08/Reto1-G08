@@ -98,8 +98,19 @@ def getArtWork(catalog, fecha_inicial, fecha_final):
 # Funciones utilizadas para comparar elementos dentro de una lista
 
 
-def compareArtists(artist1, artist2):
+def cmpArtists(artist1, artist2):
     return (int(artist1['beginDate']) > int(artist2['beginDate']))
+
+
+def cmpArtwork(artwork1, artwork2):
+    """
+    Devuelve True si el 'DateAcquired' de artwork1
+    es menor que el de artwork2.
+    Args: 
+        artwork1: información de la primera obra con su valor 'DateAcquired'.
+        artwork2: información de la segunda obra con su valor 'DateAcquired'.
+    """
+    pass
 
 
 # Funciones de ordenamiento
