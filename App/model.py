@@ -26,6 +26,7 @@
 
 
 import config as cf
+from datetime import date
 from DISClib.ADT import list as lt
 assert cf
 
@@ -118,7 +119,10 @@ def cmpArtwork(artwork1, artwork2):
         artwork1: información de la primera obra con su valor 'DateAcquired'.
         artwork2: información de la segunda obra con su valor 'DateAcquired'.
     """
-    pass
+    artwork1 = date.fromisoformat(artwork1['DateAcquired'])
+    artwork2 = date.fromisoformat(artwork2['DateAcquired'])
+
+    return artwork1 < artwork2
 
 
 # Funciones de ordenamiento
