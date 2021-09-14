@@ -50,8 +50,6 @@ def loadData(catalog):
     """
     loadArtists(catalog)
     loadArtworks(catalog)
-    sortArtists(catalog)
-    sortArtworks(catalog)
 
 
 def loadArtists(catalog):
@@ -82,30 +80,28 @@ def sortArtists(catalog):
     """
     Ordena los artistas por año de nacimiento
     """
-    model.sortArtists(catalog)
+    return model.sortArtists(catalog)
 
 
 def sortArtworks(catalog):
     """
     Ordena las obras de arte por año de adquisición
     """
-    model.sortArtWorks(catalog)
+    return model.sortArtWorks(catalog)
 
 
 # Funciones de consulta sobre el catálogo
 
 
-def getArtists(catalog, año_inicial, año_final):
+def getArtists(catalog, inicio, fin):
     """
     Retorna los artistas según su año de nacimiento
     """
-    artists = model.getArtists(catalog, año_inicial, año_final)
-    return artists
+    return model.getArtists(catalog, inicio, fin)
 
 
-def getArtWork(catalog, fecha_inicial, fecha_final):
+def getArtWorks(catalog, inicio, fin):
     """
     Retorna las obras según su fecha de adquisición
     """
-    artwork = model.getArtWork(catalog, fecha_inicial, fecha_final)
-    return artwork
+    return model.getArtWorks(catalog, inicio, fin)

@@ -27,6 +27,10 @@ from DISClib.ADT import list as lt
 assert cf
 
 
+default_limit = 1000
+sys.setrecursionlimit(default_limit * 10)
+
+
 """
 La vista se encarga de la interacción con el usuario
 Presenta el menu de opciones y por cada seleccion
@@ -50,14 +54,7 @@ def loadData(catalog):
 
 
 def printArtist(artist):
-    if artist:
-        for artist in lt.iterator(artist):
-            print('nombre: ' + artist['name'] + 
-                  ', año_nacimiento: ' + artist['beginDate'] + 
-                  ', nacionalidad: ' + artist['nationality'] + 
-                  ', genero: ' + artist['gender'])
-    else:
-        print('No existe un artista en este rango de tiempo')
+    pass
 
 
 def printArtWorkData(artwork):
@@ -92,13 +89,18 @@ while True:
     inputs = input('\nSeleccione una opción para continuar\n')
 
     if int(inputs[0]) == 1:
-        año_inicial = int(input('Ingrese el año inicial: '))
-        año_final = int(input('Ingrese el año final: '))
-        print(controller.getArtists(catalog, año_inicial, año_final))
+        inicio = int(input('Ingrese el año inicial: '))
+        fin = int(input('Ingrese el año final: '))
+        controller.sortArtists(catalog)
+        result = controller.getArtists(catalog, inicio, fin)
+        print(result)
 
     elif int(inputs[0]) == 2:
-        fecha_inicial = int(input('Ingrese la fecha inicial (AAAA-MM-DD): '))
-        fecha_final = int(input('Ingrese la fecha final (AAAA-MM-DD): '))
+        inicio = str(input('Ingrese la fecha inicial (AAAA-MM-DD): '))
+        fin = str(input('Ingrese la fecha final (AAAA-MM-DD): '))
+        sorted_list = controller.sortArtworks(catalog)
+        print(sorted_list[0])
+        result = controller.getArtWorks(sorted_list[1], inicio, fin)
 
     elif int(inputs[0]) == 3:
         pass
