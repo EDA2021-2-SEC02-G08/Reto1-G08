@@ -27,8 +27,7 @@ from DISClib.ADT import list as lt
 assert cf
 
 
-default_limit = 1000
-sys.setrecursionlimit(default_limit * 10)
+
 
 
 """
@@ -86,29 +85,29 @@ while True:
     print('\nCargando información de los archivos...')
     print('Artistas cargados: ' + str(lt.size(catalog['artists'])))
     print('Obras cargadas: ' + str(lt.size(catalog['artworks'])))
-    inputs = input('\nSeleccione una opción para continuar\n')
+    inputs = int(input('\nSeleccione una opción para continuar\n'))
 
-    if int(inputs[0]) == 1:
+    if inputs == 1:
         inicio = int(input('Ingrese el año inicial: '))
         fin = int(input('Ingrese el año final: '))
         controller.sortArtists(catalog)
         result = controller.getArtists(catalog, inicio, fin)
-        print(result)
+        print(catalog['artists'])
 
-    elif int(inputs[0]) == 2:
+    elif inputs == 2:
         inicio = str(input('Ingrese la fecha inicial (AAAA-MM-DD): '))
         fin = str(input('Ingrese la fecha final (AAAA-MM-DD): '))
         sorted_list = controller.sortArtworks(catalog)
         print(sorted_list[0])
         result = controller.getArtWorks(sorted_list[1], inicio, fin)
 
-    elif int(inputs[0]) == 3:
+    elif inputs == 3:
         pass
 
-    elif int(inputs[0]) == 4:
+    elif inputs == 4:
         pass
 
-    elif int(inputs[0]) == 5:
+    elif inputs == 5:
         pass 
 
     else:

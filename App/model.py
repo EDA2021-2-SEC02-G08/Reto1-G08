@@ -30,9 +30,6 @@ from datetime import date
 import time
 from DISClib.ADT import list as lt
 from DISClib.Algorithms.Sorting import shellsort as sa
-from DISClib.Algorithms.Sorting import insertionsort as ins
-from DISClib.Algorithms.Sorting import mergesort as mg
-from DISClib.Algorithms.Sorting import quicksort as qk
 assert cf
 
 
