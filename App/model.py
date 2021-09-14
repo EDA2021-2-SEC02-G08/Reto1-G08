@@ -35,11 +35,13 @@ from DISClib.Algorithms.Sorting import mergesort as mg
 from DISClib.Algorithms.Sorting import quicksort as qk
 assert cf
 
+
 """
 Se define la estructura de un catálogo de obras y artisitas. El catálogo
 tendrá dos listas, una para los videos, otra para las categorias de
 los mismos.
 """
+
 
 # Construccion de modelos
 

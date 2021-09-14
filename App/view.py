@@ -27,6 +27,11 @@ from DISClib.ADT import list as lt
 assert cf
 
 
+default_limit = 1000
+
+sys.setrecursionlimit(default_limit * 10)
+
+
 """
 La vista se encarga de la interacción con el usuario
 Presenta el menu de opciones y por cada seleccion
@@ -69,8 +74,8 @@ while True:
     inputs = input('\nSeleccione una opción para continuar\n')
 
     if int(inputs[0]) == 1:
-        datastructure = input('Seleccione la estructura de datos (ARRAY_LIST / LINKED_LIST): ')
-        catalog = initCatalog(str(datastructure))
+        datastructure = str(input('Seleccione la estructura de datos (ARRAY_LIST / LINKED_LIST): '))
+        catalog = initCatalog(datastructure)
         loadData(catalog)
         print('\nCargando información de los archivos...')
         print('Artistas cargados: ' + str(lt.size(catalog['artists'])))
