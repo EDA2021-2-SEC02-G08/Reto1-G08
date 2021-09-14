@@ -81,7 +81,6 @@ while True:
         sort = str(input('Indique el algoritmo de ordenamiento iterativo: '))
         result = controller.sortArtworks(catalog, sort, size)
         print("Para la muestra de", size, "elementos, el tiempo (mseg) es: ",
-                                          str(result[0]))     
+                                          str(round(result[0], 2)))     
         
-
 sys.exit(0)
