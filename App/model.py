@@ -87,30 +87,38 @@ def addID(catalog, artwork):
 # Funciones de consulta
 
 
-def busquedaBinaria(list, low, high, element):
+def busquedaBinaria(catalog, element):
     """
     Retorna la posición de un elemento en una lista organizada.
     """
-    mid = low + (high - 1) // 2
-    cmp = lt.getElement(list, mid)
- 
-    if int(cmp['BeginDate']) == element:
-        return mid
-    elif int(cmp['BeginDate']) > element:
-        return busquedaBinaria(list, low, mid - 1, element)
-    elif int(cmp['BeginDate']) < element:
-        return busquedaBinaria(list, mid + 1, high, element)
+
+    low = 0
+    high = lt.size(catalog) - 1
+    mid = 0
+
+    while low <= high:
+        mid = (high + low) // 2
+        cmp = lt.getElement(catalog, mid)
+    
+        if int(cmp['BeginDate']) < element:
+            low = mid + 1
+        elif int(cmp['BeginDate']) > element:
+            high = mid - 1
+        else:
+            return mid
+    
+    return -1
 
 
 def getArtists(catalog, inicio, fin):
-    size = lt.size(catalog['artists']) - 1
-    pos_inicio = busquedaBinaria(catalog['artists'], 0, size, inicio)
-    pos_fin = busquedaBinaria(catalog['artists'], 0, size, fin)
+    artists = catalog['artists']
+    pos_inicio = busquedaBinaria(artists, inicio)
+    pos_fin = busquedaBinaria(artists, fin)
 
     arrayList = lt.newList(datastructure='ARRAY_LIST')
 
     for pos in range(pos_inicio, pos_fin + 1):
-        artist = lt.getElement(catalog['artists'], pos)
+        artist = lt.getElement(artists, pos)
         lt.addLast(arrayList, artist)
 
     return arrayList

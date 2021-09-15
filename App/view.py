@@ -27,9 +27,6 @@ from DISClib.ADT import list as lt
 assert cf
 
 
-
-
-
 """
 La vista se encarga de la interacción con el usuario
 Presenta el menu de opciones y por cada seleccion
@@ -92,7 +89,7 @@ while True:
         fin = int(input('Ingrese el año final: '))
         controller.sortArtists(catalog)
         result = controller.getArtists(catalog, inicio, fin)
-        print(catalog['artists'])
+        print(result)
 
     elif inputs == 2:
         inicio = str(input('Ingrese la fecha inicial (AAAA-MM-DD): '))
