@@ -25,6 +25,7 @@
  """
 
 
+from typing import Mapping
 import config as cf
 from datetime import date
 import time
