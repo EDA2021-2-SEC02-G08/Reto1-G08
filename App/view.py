@@ -88,15 +88,18 @@ while True:
         inicio = int(input('Ingrese el año inicial: '))
         fin = int(input('Ingrese el año final: '))
         controller.sortArtists(catalog)
+        print(lt.getElement(catalog['artists'], -1))
         result = controller.getArtists(catalog, inicio, fin)
         print(result)
 
     elif inputs == 2:
         inicio = str(input('Ingrese la fecha inicial (AAAA-MM-DD): '))
         fin = str(input('Ingrese la fecha final (AAAA-MM-DD): '))
-        sorted_list = controller.sortArtworks(catalog)
-        print(sorted_list[0])
-        result = controller.getArtWorks(sorted_list[1], inicio, fin)
+        controller.sortArtworks(catalog)
+        #print(lt.getElement(catalog['artworks'], -1))
+        #print(catalog['artworks'])
+        result = controller.getArtWorks(catalog, inicio, fin)
+        print(result)
 
     elif inputs == 3:
         pass

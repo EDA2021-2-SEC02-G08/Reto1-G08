@@ -27,7 +27,6 @@
 
 import config as cf
 from datetime import date
-import time
 from DISClib.ADT import list as lt
 from DISClib.Algorithms.Sorting import shellsort as sa
 assert cf
@@ -84,12 +83,14 @@ def addID(catalog, artwork):
         lt.addLast(catalog['id'], id)
 
 
-# Funciones de consulta
+#Algoritmos de busqueda
 
 
 def busquedaBinaria(catalog, element):
     """
     Retorna la posición de un elemento en una lista organizada.
+    Esta función está implementada para encontrar el año de
+    nacimiento del artista.
     """
 
     low = 0
@@ -110,6 +111,35 @@ def busquedaBinaria(catalog, element):
     return -1
 
 
+def busquedaBinaria2(catalog, element):
+    """
+    Retorna la posición de un elemento en una lista organizada.
+    Esta función está implementada para encontrar la fecha
+    de compra de una obra de arte.
+    """
+
+    low = 0
+    high = lt.size(catalog) - 1
+    mid = 0
+    element = date.fromisoformat(element)
+
+    while low <= high:
+        mid = (high + low) // 2
+        cmp = lt.getElement(catalog, mid)
+    
+        if date.fromisoformat(cmp['DateAcquired']) < element:
+            low = mid + 1               
+        elif date.fromisoformat(cmp['DateAcquired']) > element:
+            high = mid - 1
+        else:
+            return mid
+    
+    return -1
+
+
+# Funciones de consulta
+
+
 def getArtists(catalog, inicio, fin):
     artists = catalog['artists']
     pos_inicio = busquedaBinaria(artists, inicio)
@@ -125,15 +155,15 @@ def getArtists(catalog, inicio, fin):
 
 
 def getArtWorks(catalog, inicio, fin):
-    size = lt.size(catalog)
-    pos_inicio = busquedaBinaria(catalog['artworks'], 0, size - 1, inicio)
-    pos_fin = busquedaBinaria(catalog['artworks'], 0, size - 1, fin)
+    artworks = catalog['artworks']
+    pos_inicio = busquedaBinaria2(artworks, inicio)
+    pos_fin = busquedaBinaria2(artworks, fin)
 
     arrayList = lt.newList(datastructure='ARRAY_LIST')
 
-    for pos in range(pos_inicio, pos_fin):
-        artist = lt.getElement(catalog['artworks'], pos)
-        lt.addLast(arrayList, artist)
+    for pos in range(pos_inicio, pos_fin + 1):
+        artwork = lt.getElement(artworks, pos)
+        lt.addLast(arrayList, artwork)
 
     return arrayList
 
@@ -170,10 +200,4 @@ def sortArtists(catalog):
 
 
 def sortArtWorks(catalog):
-    list = catalog['artworks']
-    start_time = time.process_time()
-    sorted_list = sa.sort(list, cmpArtworks)
-    stop_time = time.process_time()
-    elapsed_time_mseg = (stop_time - start_time)*1000
-
-    return elapsed_time_mseg, sorted_list
+    sa.sort(catalog['artworks'], cmpArtworks)
