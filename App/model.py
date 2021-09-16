@@ -25,10 +25,11 @@
  """
 
 
+from typing import Mapping
 import config as cf
 from datetime import date
 from DISClib.ADT import list as lt
-from DISClib.Algorithms.Sorting import shellsort as sa
+from DISClib.Algorithms.Sorting import mergesort as mg
 assert cf
 
 
@@ -196,8 +197,8 @@ def cmpArtworks(artwork1, artwork2):
 
 
 def sortArtists(catalog):
-    sa.sort(catalog['artists'], cmpArtists)
+    mg.sort(catalog['artists'], cmpArtists)
 
 
 def sortArtWorks(catalog):
-    sa.sort(catalog['artworks'], cmpArtworks)
+    mg.sort(catalog['artworks'], cmpArtworks)
