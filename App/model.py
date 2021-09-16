@@ -30,6 +30,9 @@ from datetime import date
 import time
 from DISClib.ADT import list as lt
 from DISClib.Algorithms.Sorting import shellsort as sa
+from DISClib.Algorithms.Sorting import insertionsort as ins
+from DISClib.Algorithms.Sorting import mergesort as mg
+from DISClib.Algorithms.Sorting import quicksort as qk
 assert cf
 
 
@@ -43,7 +46,7 @@ los mismos.
 # Construccion de modelos
 
 
-def newCatalog():
+def newCatalog(datastructure):
     """
     Inicializa el catálogo de obras y artistas. Crea una lista vacia para
     guardar todos los artistas y crea una lista vacia para las obras.
@@ -52,9 +55,9 @@ def newCatalog():
                'id': None,
                'artworks': None}
 
-    catalog['artists'] = lt.newList(datastructure='ARRAY_LIST')
-    catalog['id'] = lt.newList(datastructure='ARRAY_LIST')
-    catalog['artworks'] = lt.newList(datastructure='ARRAY_LIST')
+    catalog['artists'] = lt.newList(datastructure)
+    catalog['id'] = lt.newList(datastructure)
+    catalog['artworks'] = lt.newList(datastructure)
 
     return catalog
 
@@ -84,61 +87,24 @@ def addID(catalog, artwork):
         lt.addLast(catalog['id'], id)
 
 
-# Funciones de consulta
-
-
-def busquedaBinaria(catalog, element):
-    """
-    Retorna la posición de un elemento en una lista organizada.
-    """
-
-    low = 0
-    high = lt.size(catalog) - 1
-    mid = 0
-
-    while low <= high:
-        mid = (high + low) // 2
-        cmp = lt.getElement(catalog, mid)
-    
-        if int(cmp['BeginDate']) < element:
-            low = mid + 1
-        elif int(cmp['BeginDate']) > element:
-            high = mid - 1
-        else:
-            return mid
-    
-    return -1
-
-
-def getArtists(catalog, inicio, fin):
-    artists = catalog['artists']
-    pos_inicio = busquedaBinaria(artists, inicio)
-    pos_fin = busquedaBinaria(artists, fin)
-
-    arrayList = lt.newList(datastructure='ARRAY_LIST')
-
-    for pos in range(pos_inicio, pos_fin + 1):
-        artist = lt.getElement(artists, pos)
-        lt.addLast(arrayList, artist)
-
-    return arrayList
-
-
-def getArtWorks(catalog, inicio, fin):
-    size = lt.size(catalog)
-    pos_inicio = busquedaBinaria(catalog['artworks'], 0, size - 1, inicio)
-    pos_fin = busquedaBinaria(catalog['artworks'], 0, size - 1, fin)
-
-    arrayList = lt.newList(datastructure='ARRAY_LIST')
-
-    for pos in range(pos_inicio, pos_fin):
-        artist = lt.getElement(catalog['artworks'], pos)
-        lt.addLast(arrayList, artist)
-
-    return arrayList
-
-
 # Funciones utilizadas para comparar elementos dentro de una lista
+
+
+def cmpArtwork(artwork1, artwork2):
+    """
+    Devuelve True si el 'DateAcquired' de artwork1
+    es menor que el de artwork2.
+    Args: 
+        artwork1: información de la primera obra con su valor 'DateAcquired'.
+        artwork2: información de la segunda obra con su valor 'DateAcquired'.
+    """
+    if artwork1['DateAcquired'] == '' or artwork2['DateAcquired'] == '':
+        return False
+    else:
+        artwork1 = date.fromisoformat(artwork1['DateAcquired'])
+        artwork2 = date.fromisoformat(artwork2['DateAcquired'])
+        return artwork1 < artwork2
+        
 
 
 def cmpArtists(artist1, artist2):
@@ -165,14 +131,20 @@ def cmpArtworks(artwork1, artwork2):
 # Funciones de ordenamiento
 
 
-def sortArtists(catalog):
-    sa.sort(catalog['artists'], cmpArtists)
-
-
-def sortArtWorks(catalog):
-    list = catalog['artworks']
+def sortArtworks(catalog, sort, size):
+    sub_list = lt.subList(catalog['artworks'], 0, size)
+    sub_list = sub_list.copy()
     start_time = time.process_time()
-    sorted_list = sa.sort(list, cmpArtworks)
+
+    if 'insertion' in sort.lower():
+        sorted_list = ins.sort(sub_list, cmpArtwork)
+    elif 'shell' in sort.lower():
+        sorted_list = sa.sort(sub_list, cmpArtwork)
+    elif 'merge' in sort.lower():
+        sorted_list = mg.sort(sub_list, cmpArtwork)
+    elif 'quick' in sort.lower():
+        sorted_list = qk.sort(sub_list, cmpArtwork)
+
     stop_time = time.process_time()
     elapsed_time_mseg = (stop_time - start_time)*1000
 

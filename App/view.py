@@ -27,6 +27,11 @@ from DISClib.ADT import list as lt
 assert cf
 
 
+default_limit = 1000
+
+sys.setrecursionlimit(default_limit * 10)
+
+
 """
 La vista se encarga de la interacción con el usuario
 Presenta el menu de opciones y por cada seleccion
@@ -35,11 +40,11 @@ operación solicitada
 """
 
 
-def initCatalog():
+def initCatalog(datastructure):
     """
     Inicializa el catalogo de libros
     """
-    return controller.initCatalog()
+    return controller.initCatalog(datastructure)
 
 
 def loadData(catalog):
@@ -59,11 +64,8 @@ def printArtWorkData(artwork):
 
 def printMenu():
     print("Bienvenido")
-    print("1- Consultar los artistas segun su año de nacimiento")
-    print("2- Consultar las obras segun su fecha de adquisicion")
-    print("3- Consultar las obras de un artista por tecnica")
-    print("4- Consultar las obras por la nacionalidad de sus artistas")
-    print("5- Consultar el costo de transportar las obras")
+    print("1- Seleccionar la estructura de datos")
+    print("2- Ordenar las obras de arte por fecha de adquisición")
     print("0- Salir")
 
 
@@ -77,37 +79,21 @@ Menu principal
 
 while True:
     printMenu()
-    catalog = initCatalog()
-    loadData(catalog)
-    print('\nCargando información de los archivos...')
-    print('Artistas cargados: ' + str(lt.size(catalog['artists'])))
-    print('Obras cargadas: ' + str(lt.size(catalog['artworks'])))
-    inputs = int(input('\nSeleccione una opción para continuar\n'))
+    inputs = input('\nSeleccione una opción para continuar\n')
 
-    if inputs == 1:
-        inicio = int(input('Ingrese el año inicial: '))
-        fin = int(input('Ingrese el año final: '))
-        controller.sortArtists(catalog)
-        result = controller.getArtists(catalog, inicio, fin)
-        print(result)
+    if int(inputs[0]) == 1:
+        datastructure = str(input('Seleccione la estructura de datos (ARRAY_LIST / LINKED_LIST): '))
+        catalog = initCatalog(datastructure)
+        loadData(catalog)
+        print('\nCargando información de los archivos...')
+        print('Artistas cargados: ' + str(lt.size(catalog['artists'])))
+        print('Obras cargadas: ' + str(lt.size(catalog['artworks'])))
 
-    elif inputs == 2:
-        inicio = str(input('Ingrese la fecha inicial (AAAA-MM-DD): '))
-        fin = str(input('Ingrese la fecha final (AAAA-MM-DD): '))
-        sorted_list = controller.sortArtworks(catalog)
-        print(sorted_list[0])
-        result = controller.getArtWorks(sorted_list[1], inicio, fin)
-
-    elif inputs == 3:
-        pass
-
-    elif inputs == 4:
-        pass
-
-    elif inputs == 5:
-        pass 
-
-    else:
-        sys.exit(0)
-
+    elif int(inputs[0]) == 2:
+        size = int(input('Indique tamaño de la muestra: '))
+        sort = str(input('Indique el algoritmo de ordenamiento iterativo: '))
+        result = controller.sortArtworks(catalog, sort, size)
+        print("Para la muestra de", size, "elementos, el tiempo (mseg) es: ",
+                                          str(round(result[0], 2)))     
+        
 sys.exit(0)
