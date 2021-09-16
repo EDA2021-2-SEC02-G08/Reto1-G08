@@ -96,8 +96,6 @@ while True:
         inicio = str(input('Ingrese la fecha inicial (AAAA-MM-DD): '))
         fin = str(input('Ingrese la fecha final (AAAA-MM-DD): '))
         controller.sortArtworks(catalog)
-        #print(lt.getElement(catalog['artworks'], -1))
-        #print(catalog['artworks'])
         result = controller.getArtWorks(catalog, inicio, fin)
         print(result)
 
