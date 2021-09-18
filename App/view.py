@@ -88,7 +88,6 @@ while True:
         inicio = int(input('Ingrese el año inicial: '))
         fin = int(input('Ingrese el año final: '))
         controller.sortArtists(catalog)
-        print(lt.getElement(catalog['artists'], -1))
         result = controller.getArtists(catalog, inicio, fin)
         print(result)
 

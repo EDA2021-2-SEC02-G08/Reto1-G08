@@ -25,7 +25,6 @@
  """
 
 
-from typing import Mapping
 import config as cf
 from datetime import date
 from DISClib.ADT import list as lt
@@ -109,7 +108,7 @@ def busquedaBinaria(catalog, element):
         else:
             return mid
     
-    return -1
+    return mid
 
 
 def busquedaBinaria2(catalog, element):
@@ -135,7 +134,7 @@ def busquedaBinaria2(catalog, element):
         else:
             return mid
     
-    return -1
+    return mid
 
 
 # Funciones de consulta
