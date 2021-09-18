@@ -106,7 +106,7 @@ while True:
         pass
 
     elif inputs == 5:
-        pass 
+        pass
 
     else:
         sys.exit(0)

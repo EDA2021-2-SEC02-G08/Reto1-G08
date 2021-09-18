@@ -18,10 +18,6 @@
  *
  * You should have received a copy of the GNU General Public License
  * along withthis program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Contribuciones:
- *
- * Dario Correal - Version inicial
  """
 
 
@@ -83,7 +79,7 @@ def addID(catalog, artwork):
         lt.addLast(catalog['id'], id)
 
 
-#Algoritmos de busqueda
+# Algoritmos de busqueda
 
 
 def busquedaBinaria(catalog, element):
@@ -100,14 +96,13 @@ def busquedaBinaria(catalog, element):
     while low <= high:
         mid = (high + low) // 2
         cmp = lt.getElement(catalog, mid)
-    
         if int(cmp['BeginDate']) < element:
             low = mid + 1
         elif int(cmp['BeginDate']) > element:
             high = mid - 1
         else:
             return mid
-    
+
     return mid
 
 
@@ -126,14 +121,13 @@ def busquedaBinaria2(catalog, element):
     while low <= high:
         mid = (high + low) // 2
         cmp = lt.getElement(catalog, mid)
-    
         if date.fromisoformat(cmp['DateAcquired']) < element:
-            low = mid + 1               
+            low = mid + 1
         elif date.fromisoformat(cmp['DateAcquired']) > element:
             high = mid - 1
         else:
             return mid
-    
+
     return mid
 
 
