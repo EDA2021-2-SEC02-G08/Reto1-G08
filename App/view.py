@@ -27,6 +27,11 @@ from DISClib.ADT import list as lt
 assert cf
 
 
+default_limit = 1000
+
+sys.setrecursionlimit(default_limit * 10)
+
+
 """
 La vista se encarga de la interacción con el usuario
 Presenta el menu de opciones y por cada seleccion
@@ -35,11 +40,11 @@ operación solicitada
 """
 
 
-def initCatalog():
+def initCatalog(datastructure):
     """
     Inicializa el catalogo de libros
     """
-    return controller.initCatalog()
+    return controller.initCatalog(datastructure)
 
 
 def loadData(catalog):
@@ -59,11 +64,8 @@ def printArtWorkData(artwork):
 
 def printMenu():
     print("Bienvenido")
-    print("1- Consultar los artistas segun su año de nacimiento")
-    print("2- Consultar las obras segun su fecha de adquisicion")
-    print("3- Consultar las obras de un artista por tecnica")
-    print("4- Consultar las obras por la nacionalidad de sus artistas")
-    print("5- Consultar el costo de transportar las obras")
+    print("1- Seleccionar la estructura de datos")
+    print("2- Ordenar las obras de arte por fecha de adquisición")
     print("0- Salir")
 
 

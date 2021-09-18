@@ -33,11 +33,11 @@ El controlador se encarga de mediar entre la vista y el modelo.
 # Inicialización del catálogo de libros
 
 
-def initCatalog():
+def initCatalog(datastructure):
     """
     Llama la función de inicialización del catálogo del model
     """
-    catalog = model.newCatalog()
+    catalog = model.newCatalog(datastructure)
     return catalog
 
 
@@ -66,7 +66,7 @@ def loadArtworks(catalog):
     """
     Carga las obras del archivo.
     """
-    artworksfile = cf.data_dir + 'MoMA/Artworks-utf8-small.csv'
+    artworksfile = cf.data_dir + 'MoMA/Artworks-utf8-10pct.csv'
     input_file = csv.DictReader(open(artworksfile, encoding='utf-8'))
     for artwork in input_file:
         model.addArtwork(catalog, artwork)
@@ -76,18 +76,11 @@ def loadArtworks(catalog):
 # Funciones de ordenamiento
 
 
-def sortArtists(catalog):
-    """
-    Ordena los artistas por año de nacimiento
-    """
-    return model.sortArtists(catalog)
-
-
-def sortArtworks(catalog):
+def sortArtworks(catalog, sort, size):
     """
     Ordena las obras de arte por año de adquisición
     """
-    return model.sortArtWorks(catalog)
+    return model.sortArtworks(catalog, sort, size)
 
 
 # Funciones de consulta sobre el catálogo

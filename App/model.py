@@ -27,8 +27,12 @@
 
 import config as cf
 from datetime import date
+import time
 from DISClib.ADT import list as lt
+from DISClib.Algorithms.Sorting import shellsort as sa
+from DISClib.Algorithms.Sorting import insertionsort as ins
 from DISClib.Algorithms.Sorting import mergesort as mg
+from DISClib.Algorithms.Sorting import quicksort as qk
 assert cf
 
 
@@ -42,7 +46,7 @@ los mismos.
 # Construccion de modelos
 
 
-def newCatalog():
+def newCatalog(datastructure):
     """
     Inicializa el catálogo de obras y artistas. Crea una lista vacia para
     guardar todos los artistas y crea una lista vacia para las obras.
@@ -51,9 +55,9 @@ def newCatalog():
                'id': None,
                'artworks': None}
 
-    catalog['artists'] = lt.newList(datastructure='ARRAY_LIST')
-    catalog['id'] = lt.newList(datastructure='ARRAY_LIST')
-    catalog['artworks'] = lt.newList(datastructure='ARRAY_LIST')
+    catalog['artists'] = lt.newList(datastructure)
+    catalog['id'] = lt.newList(datastructure)
+    catalog['artworks'] = lt.newList(datastructure)
 
     return catalog
 
@@ -83,15 +87,8 @@ def addID(catalog, artwork):
         lt.addLast(catalog['id'], id)
 
 
-#Algoritmos de busqueda
+# Funciones utilizadas para comparar elementos dentro de una lista
 
-
-def busquedaBinaria(catalog, element):
-    """
-    Retorna la posición de un elemento en una lista organizada.
-    Esta función está implementada para encontrar el año de
-    nacimiento del artista.
-    """
 
     low = 0
     high = lt.size(catalog) - 1
@@ -113,9 +110,11 @@ def busquedaBinaria(catalog, element):
 
 def busquedaBinaria2(catalog, element):
     """
-    Retorna la posición de un elemento en una lista organizada.
-    Esta función está implementada para encontrar la fecha
-    de compra de una obra de arte.
+    Devuelve True si el 'DateAcquired' de artwork1
+    es menor que el de artwork2.
+    Args: 
+        artwork1: información de la primera obra con su valor 'DateAcquired'.
+        artwork2: información de la segunda obra con su valor 'DateAcquired'.
     """
 
     low = 0
@@ -195,9 +194,21 @@ def cmpArtworks(artwork1, artwork2):
 # Funciones de ordenamiento
 
 
-def sortArtists(catalog):
-    mg.sort(catalog['artists'], cmpArtists)
+def sortArtworks(catalog, sort, size):
+    sub_list = lt.subList(catalog['artworks'], 0, size)
+    sub_list = sub_list.copy()
+    start_time = time.process_time()
 
+    if 'insertion' in sort.lower():
+        sorted_list = ins.sort(sub_list, cmpArtwork)
+    elif 'shell' in sort.lower():
+        sorted_list = sa.sort(sub_list, cmpArtwork)
+    elif 'merge' in sort.lower():
+        sorted_list = mg.sort(sub_list, cmpArtwork)
+    elif 'quick' in sort.lower():
+        sorted_list = qk.sort(sub_list, cmpArtwork)
 
-def sortArtWorks(catalog):
-    mg.sort(catalog['artworks'], cmpArtworks)
+    stop_time = time.process_time()
+    elapsed_time_mseg = (stop_time - start_time)*1000
+
+    return elapsed_time_mseg, sorted_list
