@@ -26,12 +26,77 @@ def loadData(catalog):
     controller.loadData(catalog)
 
 
-def printArtist(artist):
-    pass
+def printArtist(artists):
+    size = lt.size(artists)
+    print('\nHay ' + str(size) + ' artistas nacidos en este rango de tiempo')
+    print('Los primeros y últimos tres artistas son:')
+    i = 1
+    while i <= 3:
+        artist = lt.getElement(artists, i)
+        print('Nombre: ' + artist['DisplayName'] +
+              '. Nacimiento: ' + artist['BeginDate'] +
+              '. Fallecimiento: ' + artist['EndDate'] +
+              '. Nacionalidad: ' + artist['Nationality'] +
+              '. Genero: ' + artist['Gender'])
+        i += 1
+    i = -2
+    while i <= 0:
+        artist = lt.getElement(artists, i)
+        print('Nombre: ' + artist['DisplayName'] +
+              '. Nacimiento: ' + artist['BeginDate'] +
+              '. Fallecimiento: ' + artist['EndDate'] +
+              '. Nacionalidad: ' + artist['Nationality'] +
+              '. Genero: ' + artist['Gender'])
+        i += 1
 
 
-def printArtWorkData(artwork):
-    pass
+def countPurchase(artworks):
+    count = 0
+    for artwork in lt.iterator(artworks):
+        if 'purchase' in artwork['CreditLine'].lower():
+            count += 1
+
+    return count
+
+
+def countArtists(artworks):
+    auxiliar = {}
+    count = 0
+    for artwork in lt.iterator(artworks):
+        artists_id = artwork['ConstituentID'].replace('[', '').replace(']', '')
+
+        if ',' in artists_id:
+            lista = artists_id.split(', ')
+            for artist in lista:
+                veces = auxiliar.get(artist, 0)
+                if veces == 0:
+                    auxiliar[artist] = 1
+                    count += 1
+        else:
+            veces = auxiliar.get(artists_id, 0)
+            if veces == 0:
+                auxiliar[artists_id] = 1
+                count += 1
+
+    return count
+
+
+def printArtWork(artworks):
+    size = lt.size(artworks)
+    print('\nEl MoMA adquirió ' + str(size) + ' obras en este rango')
+    purchase = str(countPurchase(artworks))
+    artists = str(countArtists(artworks))
+    print('Con ' + artists + ' artistas distintos y ' +
+          purchase + ' de estas obras compradas')
+    print('\nLas primeras y últimas obras de arte son:')
+    i = 1
+    while i <= 3:
+        artwork = lt.getElement(artworks, i)
+        print('Titulo: ' + artwork['Title'] +
+              '. Fecha: ' + artwork['Date'] +
+              '. Medio: ' + artwork['Medium'] +
+              '. Dimensiones: ' + artwork['Dimensions'])
+        i += 1
 
 
 def printMenu():
@@ -65,15 +130,16 @@ while True:
         inicio = int(input('Ingrese el año inicial: '))
         fin = int(input('Ingrese el año final: '))
         controller.sortArtists(catalog)
-        result = controller.getArtists(catalog, inicio, fin)
-        print(result)
+        artistas = controller.getArtists(catalog, inicio, fin)
+        print(artistas)
+        printArtist(artistas)
 
     elif inputs == 2:
         inicio = str(input('Ingrese la fecha inicial (AAAA-MM-DD): '))
         fin = str(input('Ingrese la fecha final (AAAA-MM-DD): '))
         controller.sortArtworks(catalog)
         result = controller.getArtWorks(catalog, inicio, fin)
-        print(result)
+        printArtWork(result)
 
     elif inputs == 3:
         pass
