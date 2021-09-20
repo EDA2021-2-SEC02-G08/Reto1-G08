@@ -29,7 +29,7 @@ def loadData(catalog):
 def printArtist(artists):
     size = lt.size(artists)
     print('\nHay ' + str(size) + ' artistas nacidos en este rango de tiempo')
-    print('Los primeros y últimos tres artistas son:')
+    print('Los primeros y últimos tres artistas son:\n')
     i = 1
     while i <= 3:
         artist = lt.getElement(artists, i)
@@ -88,9 +88,17 @@ def printArtWork(artworks):
     artists = str(countArtists(artworks))
     print('Con ' + artists + ' artistas distintos y ' +
           purchase + ' de estas obras compradas')
-    print('\nLas primeras y últimas obras de arte son:')
+    print('Las primeras y últimas obras de arte son:\n')
     i = 1
     while i <= 3:
+        artwork = lt.getElement(artworks, i)
+        print('Titulo: ' + artwork['Title'] +
+              '. Fecha: ' + artwork['Date'] +
+              '. Medio: ' + artwork['Medium'] +
+              '. Dimensiones: ' + artwork['Dimensions'])
+        i += 1
+    i = -2
+    while i <= 0:
         artwork = lt.getElement(artworks, i)
         print('Titulo: ' + artwork['Title'] +
               '. Fecha: ' + artwork['Date'] +
@@ -100,7 +108,7 @@ def printArtWork(artworks):
 
 
 def printMenu():
-    print("Bienvenido")
+    print("\nBienvenido")
     print("1- Consultar los artistas segun su año de nacimiento")
     print("2- Consultar las obras segun su fecha de adquisicion")
     print("3- Consultar las obras de un artista por tecnica")
@@ -130,9 +138,8 @@ while True:
         inicio = int(input('Ingrese el año inicial: '))
         fin = int(input('Ingrese el año final: '))
         controller.sortArtists(catalog)
-        artistas = controller.getArtists(catalog, inicio, fin)
-        print(artistas)
-        printArtist(artistas)
+        result = controller.getArtists(catalog, inicio, fin)
+        printArtist(result)
 
     elif inputs == 2:
         inicio = str(input('Ingrese la fecha inicial (AAAA-MM-DD): '))
