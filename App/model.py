@@ -62,10 +62,9 @@ def addID(catalog, artwork):
 def busquedaBinaria(catalog, element):
     """
     Retorna la posición de un elemento en una lista organizada.
-    Esta función está implementada para encontrar el año de
-    nacimiento del artista.
+    Esta función encuentra el año de nacimiento del artista.
+    En caso de no existir, retorna la última posición encontrada.
     """
-
     low = 0
     high = lt.size(catalog) - 1
     mid = 0
@@ -86,10 +85,9 @@ def busquedaBinaria(catalog, element):
 def busquedaBinaria2(catalog, element):
     """
     Retorna la posición de un elemento en una lista organizada.
-    Esta función está implementada para encontrar la fecha
-    de compra de una obra de arte.
+    Esta función encuentra la fecha de compra de una obra de arte.
+    En caso de no existir, retorna la última posición encontrada.
     """
-
     low = 0
     high = lt.size(catalog) - 1
     mid = 0
@@ -112,10 +110,13 @@ def busquedaBinaria2(catalog, element):
 
 
 def getArtists(catalog, inicio, fin):
+    """
+    Retorna un arrayList con los artistas
+    en un rango de tiempo.
+    """
     artists = catalog['artists']
     pos_inicio = busquedaBinaria(artists, inicio)
     pos_fin = busquedaBinaria(artists, fin)
-
     arrayList = lt.newList(datastructure='ARRAY_LIST')
 
     for pos in range(pos_inicio, pos_fin + 1):
@@ -126,10 +127,13 @@ def getArtists(catalog, inicio, fin):
 
 
 def getArtWorks(catalog, inicio, fin):
+    """
+    Retorna un arrayList con las obras de arte
+    en un rango de tiempo.
+    """
     artworks = catalog['artworks']
     pos_inicio = busquedaBinaria2(artworks, inicio)
     pos_fin = busquedaBinaria2(artworks, fin)
-
     arrayList = lt.newList(datastructure='ARRAY_LIST')
 
     for pos in range(pos_inicio, pos_fin + 1):
