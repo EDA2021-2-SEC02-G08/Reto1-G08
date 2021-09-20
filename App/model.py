@@ -162,6 +162,24 @@ def getArtWorks(catalog, inicio, fin):
     return arrayList
 
 
+def getTOP(catalog):
+    auxiliar = {}
+    id = catalog['id']
+
+    for artist in id.values():
+        size = lt.size(artist['id_artworks'])
+        nacionalidad = artist['nacionalidad']
+        if nacionalidad == '' or nacionalidad == 'Nationality unknown':
+            pass
+        else:
+            if nacionalidad not in auxiliar.keys():
+                auxiliar[nacionalidad] = size
+            else:
+                auxiliar[nacionalidad] += size
+
+    return auxiliar
+
+
 # Funciones utilizadas para comparar elementos dentro de una lista
 
 

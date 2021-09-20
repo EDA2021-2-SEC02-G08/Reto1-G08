@@ -82,3 +82,10 @@ def getArtWorks(catalog, inicio, fin):
     Retorna las obras según su fecha de adquisición.
     """
     return model.getArtWorks(catalog, inicio, fin)
+
+
+def getTOP(catalog):
+    """
+    Retorna el TOP de nacionalidades por obra.
+    """
+    return model.getTOP(catalog)

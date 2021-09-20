@@ -176,7 +176,8 @@ while True:
         pass
 
     elif inputs == 4:
-        print(catalog['id'])
+        result = controller.getTOP(catalog)
+        print(result)
 
     elif inputs == 5:
         pass
