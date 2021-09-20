@@ -1,4 +1,5 @@
 ﻿import config as cf
+from itertools import islice
 from datetime import date
 from DISClib.ADT import list as lt
 from DISClib.Algorithms.Sorting import mergesort as mg
@@ -40,17 +41,16 @@ def addArtist(catalog, artist):
 def addArtwork(catalog, artwork):
     lt.addLast(catalog['artworks'], artwork)
     artists_id = artwork['ConstituentID'].replace('[', '').replace(']', '')
-    artwork_id = artwork['ObjectID']
 
     if ',' in artists_id:
         lista = artists_id.split(', ')
         for artist_id in lista:
-            addID(catalog, artist_id, artwork_id)
+            addID(catalog, artist_id, artwork)
     else:
-        addID(catalog, artists_id, artwork_id)
+        addID(catalog, artists_id, artwork)
 
 
-def addID(catalog, artist_id, artwork_id):
+def addID(catalog, artist_id, artwork):
     id = catalog['id']
 
     if artist_id not in id.keys():
@@ -59,18 +59,18 @@ def addID(catalog, artist_id, artwork_id):
                 nacionalidad = artist['Nationality']
                 id[artist_id] = createID(nacionalidad)
                 break
-        lt.addLast(id[artist_id]['id_artworks'], artwork_id)
+        lt.addLast(id[artist_id]['artworks'], artwork)
     else:
-        lt.addLast(id[artist_id]['id_artworks'], artwork_id)
+        lt.addLast(id[artist_id]['artworks'], artwork)
 
 
 # Funciones para creacion de datos
 
 
 def createID(nacionalidad):
-    id = {'nacionalidad': '', 'id_artworks': None}
+    id = {'nacionalidad': '', 'artworks': None}
     id['nacionalidad'] = nacionalidad
-    id['id_artworks'] = lt.newList(datastructure='ARRAY_LIST')
+    id['artworks'] = lt.newList(datastructure='ARRAY_LIST')
 
     return id
 
@@ -125,6 +125,15 @@ def busquedaBinaria2(catalog, element):
     return mid
 
 
+# Funciones auxiliares
+
+
+def take(n, iterable):
+    "Return first n items of the iterable as a list"
+
+    return list(islice(iterable, n))
+
+
 # Funciones de consulta
 
 
@@ -162,12 +171,33 @@ def getArtWorks(catalog, inicio, fin):
     return arrayList
 
 
+def getTOP1(catalog, top1):
+    """
+    Retorna un arrayList con las obras de la nacionalidad
+    mas recurrente en el MoMA.
+    """
+    id = catalog['id']
+    arrayList = lt.newList(datastructure='ARRAY_LIST')
+
+    for artist in id.values():
+        nacionalidad = artist['nacionalidad']
+        if nacionalidad == top1:
+            lt.addLast(arrayList, artist['artworks'])
+
+    return arrayList
+
+
 def getTOP(catalog):
+    """
+    Retorna el TOP 10 de nacionalidades por obras.
+    Retorna un arrayList con todas las obras de la
+    nacionalidad más recurrente en el MoMA.
+    """
     auxiliar = {}
     id = catalog['id']
 
     for artist in id.values():
-        size = lt.size(artist['id_artworks'])
+        size = lt.size(artist['artworks'])
         nacionalidad = artist['nacionalidad']
         if nacionalidad == '' or nacionalidad == 'Nationality unknown':
             pass
@@ -177,7 +207,13 @@ def getTOP(catalog):
             else:
                 auxiliar[nacionalidad] += size
 
-    return auxiliar
+    auxiliar_sorted = dict(sorted(auxiliar.items(), key=lambda item: item[1],
+                           reverse=True))
+    top10 = take(10, auxiliar_sorted.items())
+    top1 = top10[0]
+    arrayList = getTOP1(catalog, top1)
+
+    return top10, arrayList
 
 
 # Funciones utilizadas para comparar elementos dentro de una lista

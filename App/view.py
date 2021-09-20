@@ -108,8 +108,8 @@ def countArtists(artworks):
 
 def printBeginDate(result):
     size = lt.size(result)
-    print('\nHay ' + str(size) + ' artistas nacidos en este rango de tiempo')
-    print('Los primeros y últimos tres artistas son:\n')
+    print('\nHay ' + str(size) + ' artistas nacidos en este rango de tiempo.')
+    print('\nLos primeros y últimos tres artistas son:')
     artistInfo(result)
 
 
@@ -119,16 +119,24 @@ def printDateAcquired(result):
     purchase = str(countPurchase(result))
     artists = str(countArtists(result))
     print('Con ' + artists + ' artistas distintos y ' +
-          purchase + ' de estas obras compradas')
-    print('Las primeras y últimas obras de arte son:\n')
+          purchase + ' de estas obras compradas.')
+    print('\nLas primeras y últimas obras de arte son:')
     artworkInfo(result)
 
 
 def printNationality(result):
-    print('El TOP 10 de nacionalidad en el MoMA es:')
     top10 = result[0]
+    top1 = result[1]
+    print('\nEl TOP 10 de nacionalidad en el MoMA es:')
+
     for top in top10:
         print(top)
+
+    print('\nEl TOP de nacionalidad en el MoMA es: ' + str(top10[0][0]) +
+          ' con ' + str(top10[0][1]) + ' obras de arte.')
+    print('\nLos primeros y ultimo tres en la lista de obras ' +
+          str(top10[0][0]) + ' son:')
+    artworkInfo(top1)
 
 
 def printMenu():
@@ -177,7 +185,7 @@ while True:
 
     elif inputs == 4:
         result = controller.getTOP(catalog)
-        print(result)
+        printNationality(result)
 
     elif inputs == 5:
         pass
