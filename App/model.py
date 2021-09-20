@@ -21,47 +21,61 @@ def newCatalog():
     guardar todos los artistas y crea una lista vacia para las obras.
     """
     catalog = {'artists': None,
-               'artworks': None}
+               'artworks': None,
+               'ConstituentIDs': None}
 
-    catalog['artists'] = lt.newList(datastructure='ARRAY_LIST', cmpfunction=compareartists)
+    catalog['artists'] = lt.newList(datastructure='ARRAY_LIST')
     catalog['artworks'] = lt.newList(datastructure='ARRAY_LIST')
+    catalog['ConstituentIDs'] = lt.newList(datastructure='ARRAY_LIST', cmpfunction=compareIDs)
 
     return catalog
 
 
 # Funciones para agregar informacion al catalogo
 
-
-def addArtist(catalog, artistinfo, artwork=None):
-    """
-    Adiciona un artista a lista de artistas, donde a su vez se guardan 
-    """
-    artists = catalog['artists']
-    posartist = lt.isPresent(artists, artistinfo)
-    if posartist > 0:
-        artist = lt.getElement(artists, artistinfo)
+def addConstituentID(catalog, id, artwork=None):
+    IDs = catalog['ConstituentIDs']
+    posID = lt.isPresent(IDs, id)
+    if posID > 0:
+        C_ID = lt.getElement(IDs, id)
     else:
-        artist = newArtist(artistinfo)
-        lt.addLast(artists, artist)
+        C_ID = newConstituentID(id)
+        lt.addLast(IDs, C_ID)
     if artwork is not None:
-        lt.addLast(artist['artworks'], artwork)
+        lt.addLast(C_ID['artworks'], artwork)
 
+
+def addArtist(catalog, artistinfo):
+    """
+    Adiciona un artista al catálogo y agrega su ID
+    """
+    lt.addLast(catalog['artists'], artistinfo)
+    addConstituentID(catalog, artistinfo['ConstituentID'])
 
 
 def addArtwork(catalog, artwork):
+    """
+    Adiciona una obra al catálogo y la asocia a los IDs de sus artistas.
+    """
     lt.addLast(catalog['artworks'], artwork)
+    artists_id = artwork['ConstituentID'].replace('[', '').replace(']', '')
+    artists_id = artists_id.split(',')
+
+    for id in artists_id:
+        addConstituentID(catalog, id.strip(), artwork)
+
 
 
 # Funciones para creación de datos
 
-def newArtist(info):
+def newConstituentID(id):
     """
-    Crea una nueva estructura para modelar lasobras de un artista
+    Crea una nueva estructura para modelar las obras de un artista
     """
-    artist = {'info': "", 'artworks': None}
-    artist['info'] = info
-    artist['artworks'] = lt.newList('ARRAY_LIST')
-    return artist
+    ID = {'ID': "", 'artworks': None}
+    ID['ID'] = id
+    ID['artworks'] = lt.newList('ARRAY_LIST')
+    return id
 
 
 
@@ -152,6 +166,12 @@ def getArtWorks(catalog, inicio, fin):
 
     return arrayList
 
+def getTechniques(catalog, artist):
+    """
+    Retorna las técnicas empleadas por un artista
+    """
+    pass
+
 
 # Funciones utilizadas para comparar elementos dentro de una lista
 
@@ -179,8 +199,8 @@ def cmpArtworks(artwork1, artwork2):
 
 # Funciones de comparación
 
-def compareartists(artist1, artist2):
-    if int(artist1['info']['ConstituentID']) ==  int(artist2['info']['ConstituentID']):
+def compareIDs(id1, id2):
+    if int(id1['ID']) ==  int(id2['ID']):
         return 0
     else:
         return -1
