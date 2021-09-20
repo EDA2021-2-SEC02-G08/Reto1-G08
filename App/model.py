@@ -21,11 +21,9 @@ def newCatalog():
     guardar todos los artistas y crea una lista vacia para las obras.
     """
     catalog = {'artists': None,
-               'id': None,
                'artworks': None}
 
-    catalog['artists'] = lt.newList(datastructure='ARRAY_LIST')
-    catalog['id'] = lt.newList(datastructure='ARRAY_LIST')
+    catalog['artists'] = lt.newList(datastructure='ARRAY_LIST', cmpfunction=compareartists)
     catalog['artworks'] = lt.newList(datastructure='ARRAY_LIST')
 
     return catalog
@@ -34,26 +32,37 @@ def newCatalog():
 # Funciones para agregar informacion al catalogo
 
 
-def addArtist(catalog, artist):
-    lt.addLast(catalog['artists'], artist)
+def addArtist(catalog, artistinfo, artwork=None):
+    """
+    Adiciona un artista a lista de artistas, donde a su vez se guardan 
+    """
+    artists = catalog['artists']
+    posartist = lt.isPresent(artists, artistinfo)
+    if posartist > 0:
+        artist = lt.getElement(artists, artistinfo)
+    else:
+        artist = newArtist(artistinfo)
+        lt.addLast(artists, artist)
+    if artwork is not None:
+        lt.addLast(artist['artworks'], artwork)
+
 
 
 def addArtwork(catalog, artwork):
     lt.addLast(catalog['artworks'], artwork)
 
 
-def addID(catalog, artwork):
-    artwork_id = artwork['ObjectID']
-    artists_id = artwork['ConstituentID'].replace('[', '').replace(']', '')
+# Funciones para creación de datos
 
-    if ',' in artists_id:
-        lista = artists_id.split(', ')
-        for artist in lista:
-            id = artwork_id + '-' + artist
-            lt.addLast(catalog['id'], id)
-    else:
-        id = artwork_id + '-' + artists_id
-        lt.addLast(catalog['id'], id)
+def newArtist(info):
+    """
+    Crea una nueva estructura para modelar lasobras de un artista
+    """
+    artist = {'info': "", 'artworks': None}
+    artist['info'] = info
+    artist['artworks'] = lt.newList('ARRAY_LIST')
+    return artist
+
 
 
 # Algoritmos de busqueda
@@ -104,6 +113,7 @@ def busquedaBinaria2(catalog, element):
             return mid
 
     return mid
+
 
 
 # Funciones de consulta
@@ -165,6 +175,15 @@ def cmpArtworks(artwork1, artwork2):
         artwork1 = date.fromisoformat(artwork1['DateAcquired'])
         artwork2 = date.fromisoformat(artwork2['DateAcquired'])
         return artwork1 < artwork2
+
+
+# Funciones de comparación
+
+def compareartists(artist1, artist2):
+    if int(artist1['info']['ConstituentID']) ==  int(artist2['info']['ConstituentID']):
+        return 0
+    else:
+        return -1
 
 
 # Funciones de ordenamiento
