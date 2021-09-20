@@ -73,13 +73,20 @@ def sortArtworks(catalog):
 
 def getArtists(catalog, inicio, fin):
     """
-    Retorna los artistas según su año de nacimiento
+    Retorna los artistas según su año de nacimiento.
     """
     return model.getArtists(catalog, inicio, fin)
 
 
 def getArtWorks(catalog, inicio, fin):
     """
-    Retorna las obras según su fecha de adquisición
+    Retorna las obras según su fecha de adquisición.
     """
     return model.getArtWorks(catalog, inicio, fin)
+
+
+def getNationality(catalog):
+    """
+    Retorna el TOP 10 de las nacionalidad con más obras de arte.
+    """
+    return model.getNationality(catalog)

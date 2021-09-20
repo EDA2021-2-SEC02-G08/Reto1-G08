@@ -143,6 +143,32 @@ def getArtWorks(catalog, inicio, fin):
     return arrayList
 
 
+def getNationality(catalog):
+    auxiliar = {}
+    arrayList = lt.newList(datastructure='ARRAY_LIST')
+
+    for artist in lt.iterator(catalog['artists']):
+        nacionalidad = artist['Nationality']
+        if nacionalidad != '':
+            veces = auxiliar.get(nacionalidad, 0)
+            auxiliar[nacionalidad] = veces + 1
+
+    # Ordenar el diccionario auxiliar por sus values
+    auxiliar_sorted = dict(sorted(auxiliar.items(), key=lambda item: item[1],
+                           reverse=True))
+
+    """
+    # Almecenar las obras del TOP 1
+    top1 = auxiliar_sorted[1].key()
+
+    for artist in lt.iterator(catalog['artists']):
+        if artist['Nationality'].lower() in top1:
+            lt.addLast(arrayList, artist)
+    """
+
+    return auxiliar_sorted, arrayList
+
+
 # Funciones utilizadas para comparar elementos dentro de una lista
 
 

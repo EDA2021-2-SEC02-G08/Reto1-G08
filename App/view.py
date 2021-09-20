@@ -1,8 +1,9 @@
-import config as cf
+﻿import config as cf
 import sys
 import controller
 from DISClib.ADT import list as lt
 assert cf
+
 
 """
 La vista se encarga de la interacción con el usuario
@@ -152,7 +153,8 @@ while True:
         pass
 
     elif inputs == 4:
-        pass
+        result = controller.getNationality(catalog)
+        print(result[0])
 
     elif inputs == 5:
         pass
