@@ -126,6 +126,9 @@ def printDateAcquired(result):
 
 def printNationality(result):
     print('El TOP 10 de nacionalidad en el MoMA es:')
+    top10 = result[0]
+    for top in top10:
+        print(top)
 
 
 def printMenu():
@@ -174,8 +177,8 @@ while True:
 
     elif inputs == 4:
         result = controller.getNationality(catalog)
-        result[0]
-        result[1]
+        printNationality(result)
+        #print(result[1])
 
     elif inputs == 5:
         pass

@@ -3,6 +3,7 @@ from datetime import date
 from DISClib.ADT import list as lt
 from DISClib.Algorithms.Sorting import mergesort as mg
 assert cf
+from itertools import islice
 
 
 """
@@ -106,6 +107,15 @@ def busquedaBinaria2(catalog, element):
     return mid
 
 
+# Funciones auxiliares
+
+
+def take(n, iterable):
+    "Return first n items of the iterable as a list"
+
+    return list(islice(iterable, n))
+
+
 # Funciones de consulta
 
 
@@ -162,12 +172,15 @@ def getNationality(catalog):
     auxiliar_sorted = dict(sorted(auxiliar.items(), key=lambda item: item[1],
                            reverse=True))
 
+    # TOP 10
+    top10 = take(10, auxiliar_sorted.items())
+
     # Almecenar las obras del TOP 1
     for artist in lt.iterator(catalog['artists']):
         if nacionalidad_mas_obras in artist['Nationality']:
             lt.addLast(arrayList, artist)
 
-    return auxiliar_sorted, arrayList
+    return top10, arrayList
 
 
 # Funciones utilizadas para comparar elementos dentro de una lista
