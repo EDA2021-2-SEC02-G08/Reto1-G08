@@ -40,33 +40,40 @@ def addArtist(catalog, artist):
 
 def addArtwork(catalog, artwork):
     lt.addLast(catalog['artworks'], artwork)
-
-
-def addID(catalog, artwork):
-    artwork_id = artwork['ObjectID']
     artists_id = artwork['ConstituentID'].replace('[', '').replace(']', '')
+    artwork_id = artwork['ObjectID']
 
     if ',' in artists_id:
         lista = artists_id.split(', ')
-        for artist in lista:
-            id = artwork_id + '-' + artist
-            lt.addLast(catalog['id'], id)
+        for artist_id in lista:
+            addID(catalog, artist_id, artwork_id)
     else:
-        id = artwork_id + '-' + artists_id
-        lt.addLast(catalog['id'], id)
+        addID(catalog, artists_id, artwork_id)
+
+
+def addID(catalog, artist_id, artwork_id):
+    artists = catalog['id']
+    pos_artist = lt.isPresent(artists, artist_id)
+    if pos_artist > 0:
+        artist = lt.getElement(artists, pos_artist)
+    else:
+        artist = newArtist(artist_id)
+        lt.addLast(artists, artist)
+    lt.addLast(artist['artworks'], artwork_id)
 
 
 # Funciones para creacion de datos
 
 
-def newAuthor(name):
+def newArtist(id):
     """
     Crea una nueva estructura para modelar las obras de arte
     por artista
     """
     author = {'name': '', 'artworks': None}
-    author['name'] = name
+    author['name'] = id
     author['artworks'] = lt.newList('ARRAY_LIST')
+
     return author
 
 
