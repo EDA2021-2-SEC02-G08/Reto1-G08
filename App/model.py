@@ -3,7 +3,6 @@ from datetime import date
 from DISClib.ADT import list as lt
 from DISClib.Algorithms.Sorting import mergesort as mg
 assert cf
-from itertools import islice
 
 
 """
@@ -57,6 +56,20 @@ def addID(catalog, artwork):
         lt.addLast(catalog['id'], id)
 
 
+# Funciones para creacion de datos
+
+
+def newAuthor(name):
+    """
+    Crea una nueva estructura para modelar las obras de arte
+    por artista
+    """
+    author = {'name': '', 'artworks': None}
+    author['name'] = name
+    author['artworks'] = lt.newList('ARRAY_LIST')
+    return author
+
+
 # Algoritmos de busqueda
 
 
@@ -107,15 +120,6 @@ def busquedaBinaria2(catalog, element):
     return mid
 
 
-# Funciones auxiliares
-
-
-def take(n, iterable):
-    "Return first n items of the iterable as a list"
-
-    return list(islice(iterable, n))
-
-
 # Funciones de consulta
 
 
@@ -155,32 +159,17 @@ def getArtWorks(catalog, inicio, fin):
 
 def getNationality(catalog):
     auxiliar = {}
-    nacionalidad_mas_obras = None
-    mas_obras = 0
-    arrayList = lt.newList(datastructure='ARRAY_LIST')
 
     for artist in lt.iterator(catalog['artists']):
         nacionalidad = artist['Nationality']
         if nacionalidad != '':
-            veces = auxiliar.get(nacionalidad, 0)
-            auxiliar[nacionalidad] = veces + 1
-            if auxiliar[nacionalidad] > mas_obras:
-                mas_obras = auxiliar[nacionalidad]
-                nacionalidad_mas_obras = nacionalidad
+            if nacionalidad not in auxiliar.keys():
+                auxiliar[nacionalidad] = lt.newList(datastructure='ARRAY_LIST')
+                lt.addLast(auxiliar[nacionalidad], artist['ConstituentID'])
+            else:
+                lt.addLast(auxiliar[nacionalidad], artist['ConstituentID'])
 
-    # Ordenar el diccionario auxiliar por sus values
-    auxiliar_sorted = dict(sorted(auxiliar.items(), key=lambda item: item[1],
-                           reverse=True))
-
-    # TOP 10
-    top10 = take(10, auxiliar_sorted.items())
-
-    # Almecenar las obras del TOP 1
-    for artist in lt.iterator(catalog['artists']):
-        if nacionalidad_mas_obras in artist['Nationality']:
-            lt.addLast(arrayList, artist)
-
-    return top10, arrayList
+    return auxiliar
 
 
 # Funciones utilizadas para comparar elementos dentro de una lista
