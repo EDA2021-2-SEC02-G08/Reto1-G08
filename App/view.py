@@ -1,4 +1,4 @@
-﻿import config as cf
+import config as cf
 import sys
 import controller
 from DISClib.ADT import list as lt
@@ -115,7 +115,7 @@ def printMenu():
     print("4- Consultar las obras por la nacionalidad de sus artistas")
     print("5- Consultar el costo de transportar las obras")
     print("0- Salir")
-    print(".")
+
 
 catalog = None
 
