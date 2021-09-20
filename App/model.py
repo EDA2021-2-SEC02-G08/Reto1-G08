@@ -52,11 +52,27 @@ def addArtwork(catalog, artwork):
 
 def addID(catalog, artist_id, artwork_id):
     id = catalog['id']
+
     if artist_id not in id.keys():
-        id[artist_id] = lt.newList(datastructure='ARRAY_LIST')
-        lt.addLast(id[artist_id], artwork_id)
+        for artist in lt.iterator(catalog['artists']):
+            if artist['ConstituentID'] == artist_id:
+                nacionalidad = artist['Nationality']
+                id[artist_id] = createID(nacionalidad)
+                break
+        lt.addLast(id[artist_id]['id_artworks'], artwork_id)
     else:
-        lt.addLast(id[artist_id], artwork_id)
+        lt.addLast(id[artist_id]['id_artworks'], artwork_id)
+
+
+# Funciones para creacion de datos
+
+
+def createID(nacionalidad):
+    id = {'nacionalidad': '', 'id_artworks': None}
+    id['nacionalidad'] = nacionalidad
+    id['id_artworks'] = lt.newList(datastructure='ARRAY_LIST')
+
+    return id
 
 
 # Algoritmos de busqueda
@@ -144,21 +160,6 @@ def getArtWorks(catalog, inicio, fin):
         lt.addLast(arrayList, artwork)
 
     return arrayList
-
-
-def getNationality(catalog):
-    auxiliar = {}
-
-    for artist in lt.iterator(catalog['artists']):
-        nacionalidad = artist['Nationality']
-        if nacionalidad != '':
-            if nacionalidad not in auxiliar.keys():
-                auxiliar[nacionalidad] = lt.newList(datastructure='ARRAY_LIST')
-                lt.addLast(auxiliar[nacionalidad], artist['ConstituentID'])
-            else:
-                lt.addLast(auxiliar[nacionalidad], artist['ConstituentID'])
-
-    return auxiliar
 
 
 # Funciones utilizadas para comparar elementos dentro de una lista

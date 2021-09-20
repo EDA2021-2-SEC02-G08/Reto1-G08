@@ -176,7 +176,6 @@ while True:
         pass
 
     elif inputs == 4:
-        result = controller.getNationality(catalog)
         print(catalog['id'])
 
     elif inputs == 5:
