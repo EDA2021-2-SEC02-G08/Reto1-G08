@@ -182,7 +182,8 @@ def getTOP1(catalog, top1):
     for artist in id.values():
         nacionalidad = artist['nacionalidad']
         if nacionalidad == top1:
-            lt.addLast(arrayList, artist['artworks'])
+            for artwork in lt.iterator(artist['artworks']):
+                lt.addLast(arrayList, artwork)
 
     return arrayList
 
@@ -210,7 +211,7 @@ def getTOP(catalog):
     auxiliar_sorted = dict(sorted(auxiliar.items(), key=lambda item: item[1],
                            reverse=True))
     top10 = take(10, auxiliar_sorted.items())
-    top1 = top10[0]
+    top1 = top10[0][0]
     arrayList = getTOP1(catalog, top1)
 
     return top10, arrayList
