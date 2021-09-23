@@ -143,24 +143,24 @@ def costArtwork(artwork):
     weight = artwork['Weight (kg)']
     cost1 = 0
     if weight != '':
-        cost1 = int(artwork['Weight (kg)']) * 72
+        cost1 = float(artwork['Weight (kg)']) * 72
     # m2 or m3
     count = 0
-    if artwork['Height (cm)'] != '':
-        height = int(artwork['Height (cm)']) / 1000
-        count += 1
-    else:
+    if artwork['Height (cm)'] == '':
         height = 1
-    if artwork['Length (cm)'] != '':
-        length = int(artwork['Length (cm)']) / 1000
-        count += 1
     else:
+        height = float(artwork['Height (cm)']) / 1000
+        count += 1
+    if artwork['Length (cm)'] == '':
         length = 1
-    if artwork['Width (cm)'] != '':
-        width = int(artwork['Width (cm)']) / 1000
-        count += 1
     else:
+        length = float(artwork['Length (cm)']) / 1000
+        count += 1
+    if artwork['Width (cm)'] == '':
         width = 1
+    else:
+        width = float(artwork['Width (cm)']) / 1000
+        count += 1
     if count == 3:
         cost2 = (height * length * width) * 72
         if cost2 > cost1:
@@ -268,15 +268,18 @@ def getRequirement5(catalog, department):
     total_weight = 0
 
     for artwork in lt.iterator(artworks):
-        if artwork['Department'] == department:
+        if department.lower() in artwork['Department'].lower():
             cost = costArtwork(artwork)
             total_cost += cost
             artwork['Cost'] = cost
             lt.addLast(arrayList, artwork)
             if artwork['Weight (kg)'] != '':
-                total_weight += int(artwork['Weight (kg)'])
+                total_weight += float(artwork['Weight (kg)'])
 
-    return arrayList, total_cost, total_weight
+    oldest = sortOldest(arrayList).copy()
+    sortExpensive(arrayList)
+
+    return round(total_cost, 2), round(total_weight, 2), oldest, arrayList
 
 # Funciones utilizadas para comparar elementos dentro de una lista
 
@@ -334,6 +337,8 @@ def sortArtWorks(catalog):
 
 def sortOldest(arrayList):
     mg.sort(arrayList, cmpOldest)
+
+    return arrayList
 
 
 def sortExpensive(arrayList):
