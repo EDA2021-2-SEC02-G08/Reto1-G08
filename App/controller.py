@@ -67,18 +67,39 @@ def sortArtworks(catalog):
     return model.sortArtWorks(catalog)
 
 
+def sortIDs(catalog):
+    """
+    Ordena los IDs como enteros
+    """
+    return model.sortIDs(catalog)
+
+
 # Funciones de consulta sobre el catálogo
 
 
 def getArtists(catalog, inicio, fin):
     """
-    Retorna los artistas según su año de nacimiento
+    Retorna los artistas según su año de nacimiento.
     """
     return model.getArtists(catalog, inicio, fin)
 
 
 def getArtWorks(catalog, inicio, fin):
     """
-    Retorna las obras según su fecha de adquisición
+    Retorna las obras según su fecha de adquisición.
     """
     return model.getArtWorks(catalog, inicio, fin)
+
+
+def getTOP(catalog):
+    """
+    Retorna el TOP de nacionalidades por obra.
+    """
+    return model.getTOP(catalog)
+
+
+def getArtistTechniques(catalog, artist):
+    """
+    Retorna las técnicas de un artista
+    """
+    return model.getArtistTechniques(catalog, artist)

@@ -1,8 +1,9 @@
-import config as cf
+﻿import config as cf
 import sys
 import controller
 from DISClib.ADT import list as lt
 assert cf
+
 
 """
 La vista se encarga de la interacción con el usuario
@@ -26,10 +27,10 @@ def loadData(catalog):
     controller.loadData(catalog)
 
 
-def printArtist(artists):
-    size = lt.size(artists)
-    print('\nHay ' + str(size) + ' artistas nacidos en este rango de tiempo')
-    print('Los primeros y últimos tres artistas son:\n')
+# Funciones auxiliares
+
+
+def artistInfo(artists):
     i = 1
     while i <= 3:
         artist = lt.getElement(artists, i)
@@ -39,6 +40,7 @@ def printArtist(artists):
               '. Nacionalidad: ' + artist['Nationality'] +
               '. Genero: ' + artist['Gender'])
         i += 1
+
     i = -2
     while i <= 0:
         artist = lt.getElement(artists, i)
@@ -47,6 +49,26 @@ def printArtist(artists):
               '. Fallecimiento: ' + artist['EndDate'] +
               '. Nacionalidad: ' + artist['Nationality'] +
               '. Genero: ' + artist['Gender'])
+        i += 1
+
+
+def artworkInfo(artworks):
+    i = 1
+    while i <= 3:
+        artwork = lt.getElement(artworks, i)
+        print('Titulo: ' + artwork['Title'] +
+              '. Fecha: ' + artwork['Date'] +
+              '. Medio: ' + artwork['Medium'] +
+              '. Dimensiones: ' + artwork['Dimensions'])
+        i += 1
+
+    i = -2
+    while i <= 0:
+        artwork = lt.getElement(artworks, i)
+        print('Titulo: ' + artwork['Title'] +
+              '. Fecha: ' + artwork['Date'] +
+              '. Medio: ' + artwork['Medium'] +
+              '. Dimensiones: ' + artwork['Dimensions'])
         i += 1
 
 
@@ -81,30 +103,44 @@ def countArtists(artworks):
     return count
 
 
-def printArtWork(artworks):
-    size = lt.size(artworks)
+# Funciones imprimir
+
+
+def printBeginDate(result):
+    size = lt.size(result)
+    print('\nHay ' + str(size) + ' artistas nacidos en este rango de tiempo.')
+    print('\nLos primeros y últimos tres artistas son:')
+    artistInfo(result)
+
+
+def printDateAcquired(result):
+    size = lt.size(result)
     print('\nEl MoMA adquirió ' + str(size) + ' obras en este rango')
-    purchase = str(countPurchase(artworks))
-    artists = str(countArtists(artworks))
+    purchase = str(countPurchase(result))
+    artists = str(countArtists(result))
     print('Con ' + artists + ' artistas distintos y ' +
-          purchase + ' de estas obras compradas')
-    print('Las primeras y últimas obras de arte son:\n')
-    i = 1
-    while i <= 3:
-        artwork = lt.getElement(artworks, i)
-        print('Titulo: ' + artwork['Title'] +
-              '. Fecha: ' + artwork['Date'] +
-              '. Medio: ' + artwork['Medium'] +
-              '. Dimensiones: ' + artwork['Dimensions'])
-        i += 1
-    i = -2
-    while i <= 0:
-        artwork = lt.getElement(artworks, i)
-        print('Titulo: ' + artwork['Title'] +
-              '. Fecha: ' + artwork['Date'] +
-              '. Medio: ' + artwork['Medium'] +
-              '. Dimensiones: ' + artwork['Dimensions'])
-        i += 1
+          purchase + ' de estas obras compradas.')
+    print('\nLas primeras y últimas obras de arte son:')
+    artworkInfo(result)
+
+
+def printNationality(result):
+    top10 = result[0]
+    top1 = result[1]
+    print('\nEl TOP 10 de nacionalidad en el MoMA es:')
+
+    for top in top10:
+        print(top)
+
+    print('\nEl TOP de nacionalidad en el MoMA es: ' + str(top10[0][0]) +
+          ' con ' + str(top10[0][1]) + ' obras de arte.')
+    print('\nLos primeros y ultimo tres en la lista de obras ' +
+          str(top10[0][0]) + ' son:')
+    artworkInfo(top1)
+
+
+def printTechniques(result1):
+    pass
 
 
 def printMenu():
@@ -139,20 +175,30 @@ while True:
         fin = int(input('Ingrese el año final: '))
         controller.sortArtists(catalog)
         result = controller.getArtists(catalog, inicio, fin)
-        printArtist(result)
+        printBeginDate(result)
 
     elif inputs == 2:
         inicio = str(input('Ingrese la fecha inicial (AAAA-MM-DD): '))
         fin = str(input('Ingrese la fecha final (AAAA-MM-DD): '))
         controller.sortArtworks(catalog)
         result = controller.getArtWorks(catalog, inicio, fin)
-        printArtWork(result)
+        printDateAcquired(result)
 
     elif inputs == 3:
-        pass
+        artista = str(input('Ingrese el artista a examinar: '))
+        num, techs, artworks, top_tech = controller.getArtistTechniques(catalog, artista)
+        num_techs = len(techs)
+        print('\n' + artista + 'tiene ' + str(num) + 
+              ' piezas a su nombre en el museo.')
+        print('Hay un total de ' + num_techs + 'técnicas a su nombre.')
+        print('La técnica más utilizada por este/esta artista es ' + top_tech 
+              + 'con un total de ' + num_techs + 'obras con esta técnica.')
+        printTechniques(artworks)
+
 
     elif inputs == 4:
-        pass
+        result = controller.getTOP(catalog)
+        printNationality(result)
 
     elif inputs == 5:
         pass
