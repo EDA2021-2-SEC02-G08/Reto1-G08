@@ -34,7 +34,7 @@ def loadArtists(catalog):
     """
     Carga los artistas del archivo.
     """
-    artistsfile = cf.data_dir + 'MoMA/Artists-utf8-large.csv'
+    artistsfile = cf.data_dir + 'MoMA/Artists-utf8-small.csv'
     input_file = csv.DictReader(open(artistsfile, encoding='utf-8'))
     for artist in input_file:
         model.addArtist(catalog, artist)
@@ -44,7 +44,7 @@ def loadArtworks(catalog):
     """
     Carga las obras del archivo.
     """
-    artworksfile = cf.data_dir + 'MoMA/Artworks-utf8-large.csv'
+    artworksfile = cf.data_dir + 'MoMA/Artworks-utf8-small.csv'
     input_file = csv.DictReader(open(artworksfile, encoding='utf-8'))
     for artwork in input_file:
         model.addArtwork(catalog, artwork)
@@ -65,6 +65,16 @@ def sortArtworks(catalog):
     Ordena las obras de arte por año de adquisición
     """
     return model.sortArtWorks(catalog)
+
+
+def sortOldest(arrayList):
+
+    return model.sortOldest(arrayList)
+
+
+def sortExpensive(arrayList):
+
+    return model.sortExpensive(arrayList)
 
 
 # Funciones de consulta sobre el catálogo

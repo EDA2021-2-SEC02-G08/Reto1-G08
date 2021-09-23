@@ -191,8 +191,26 @@ while True:
     elif inputs == 5:
         department = str(input('Ingrese el departamento del MoMA: '))
         result = controller.getRequirement5(catalog, department)
-        print(result[0])
-        print(result[1])
+        arrayList = result[2]
+        size = lt.size(arrayList)
+        print('\nEl MoMA va a transportar ' + str(size) +
+              ' objetos del departamento de ' + str(department))
+        print('Peso estimado (kg): ' + str(result[1]))
+        print('El costo estimado de transporte (USD): ' + str(result[0]))
+        print('\nLos 5 objetos más cotosos de transportar son:')
+        arrayList = controller.sortExpensive(result[2])
+        i = 1
+        while i <= 5:
+            objeto = lt.getElement(arrayList, i)
+            i += 1
+            print(objeto)
+        print('\nLos 5 objetos más antiguos de transportar son:')
+        arrayList = controller.sortOldest(result[2])
+        i = 1
+        while i <= 5:
+            objeto = lt.getElement(arrayList, i)
+            i += 1
+            print(objeto)
     else:
         sys.exit(0)
 

@@ -151,7 +151,7 @@ def costArtwork(artwork):
     weight = artwork['Weight (kg)']
     cost1 = 0
     if weight != '':
-        cost1 = float(artwork['Weight (kg)']) * 72
+        cost1 = float(weight) * 72
     # m2 or m3
     count = 0
     if artwork['Height (cm)'] == '':
@@ -181,9 +181,10 @@ def costArtwork(artwork):
             return cost3
         else:
             return cost1
-    if cost1 == 0 and count == 0:
-        cost = 48
-        return cost
+    if cost1 == 0 and count < 2:
+        return 48
+
+    return 0
 
 
 # Funciones de consulta
@@ -284,10 +285,7 @@ def getRequirement5(catalog, department):
             if artwork['Weight (kg)'] != '':
                 total_weight += float(artwork['Weight (kg)'])
 
-    oldest = sortOldest(arrayList).copy()
-    sortExpensive(arrayList)
-
-    return round(total_cost, 2), round(total_weight, 2), oldest, arrayList
+    return round(total_cost, 2), round(total_weight, 2), arrayList
 
 # Funciones utilizadas para comparar elementos dentro de una lista
 
@@ -321,7 +319,7 @@ def cmpOldest(artwork1, artwork2):
     if artwork1['Date'] == '' or artwork2['Date'] == '':
         return False
     else:
-        return artwork1['Date'] > artwork2['Date']
+        return artwork1['Date'] < artwork2['Date']
 
 
 def cmpExpensive(artwork1, artwork2):
@@ -351,3 +349,5 @@ def sortOldest(arrayList):
 
 def sortExpensive(arrayList):
     mg.sort(arrayList, cmpExpensive)
+
+    return arrayList
