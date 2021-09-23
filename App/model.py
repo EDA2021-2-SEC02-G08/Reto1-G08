@@ -1,5 +1,4 @@
-﻿from DISClib.DataStructures.arraylist import getElement
-import config as cf
+﻿import config as cf
 from itertools import islice
 from datetime import date
 from DISClib.ADT import list as lt
@@ -26,9 +25,12 @@ def newCatalog():
                'artworks': None,
                'ConstituentIDs': None}
 
-    catalog['artists'] = lt.newList(datastructure='ARRAY_LIST', cmpfunction=compareArtistName)
-    catalog['artworks'] = lt.newList(datastructure='ARRAY_LIST', cmpfunction=compareArworks)
-    catalog['ConstituentIDs'] = lt.newList(datastructure='ARRAY_LIST', cmpfunction=compareIDs)
+    catalog['artists'] = lt.newList(datastructure='ARRAY_LIST',
+                                    cmpfunction=compareArtistName)
+    catalog['artworks'] = lt.newList(datastructure='ARRAY_LIST',
+                                     cmpfunction=compareArworks)
+    catalog['ConstituentIDs'] = lt.newList(datastructure='ARRAY_LIST',
+                                           cmpfunction=compareIDs)
 
     return catalog
 
@@ -43,7 +45,7 @@ def addConstituentID(catalog, id, artwork=None, nationality=''):
     else:
         C_ID = newConstituentID(id, nationality)
         lt.addLast(IDs, C_ID)
-        C_ID = lt.lastElement(IDs) 
+        C_ID = lt.lastElement(IDs)
     if artwork is not None:
         lt.addLast(C_ID['artworks'], artwork)
 
@@ -53,7 +55,8 @@ def addArtist(catalog, artistinfo):
     Adiciona un artista al catálogo y agrega su ID
     """
     lt.addLast(catalog['artists'], artistinfo)
-    addConstituentID(catalog, artistinfo['ConstituentID'], nationality=artistinfo['Nationality'])
+    addConstituentID(catalog, artistinfo['ConstituentID'],
+                     nationality=artistinfo['Nationality'])
 
 
 def addArtwork(catalog, artwork):
@@ -68,8 +71,8 @@ def addArtwork(catalog, artwork):
         addConstituentID(catalog, id.strip(), artwork=artwork)
 
 
-
 # Funciones para creación de datos
+
 
 def newConstituentID(id, nationality):
     """
@@ -80,7 +83,6 @@ def newConstituentID(id, nationality):
     ID['artworks'] = lt.newList(datastructure='ARRAY_LIST')
     ID['nationality'] = nationality
     return ID
-
 
 
 # Algoritmos de busqueda
@@ -182,7 +184,7 @@ def costArtwork(artwork):
     weight = artwork['Weight (kg)']
     cost1 = 0
     if weight != '':
-        cost1 = float(artwork['Weight (kg)']) * 72
+        cost1 = float(weight) * 72
     # m2 or m3
     count = 0
     if artwork['Height (cm)'] == '':
@@ -212,9 +214,10 @@ def costArtwork(artwork):
             return cost3
         else:
             return cost1
-    if cost1 == 0 and count == 0:
-        cost = 48
-        return cost
+    if cost1 == 0 and count < 2:
+        return 48
+
+    return 0
 
 
 # Funciones de consulta
@@ -296,7 +299,7 @@ def getArtworksByTechnique(catalog, id, technique):
         artworks = lt.getElement(IDs, pos)['artworks']
         array = lt.newList(datastructure='ARRAY_LIST')
         for artwork in lt.iterator(artworks):
-            if artwork['Medium']==technique:
+            if artwork['Medium'] == technique:
                 lt.addLast(array, artwork)
         return array
     return None
@@ -310,7 +313,7 @@ def getArtistTechniques(catalog, artist):
     max = 0
     top_tech = None
     for tech in techniques:
-        if techniques[tech]>max:
+        if techniques[tech] > max:
             max = techniques[tech]
             top_tech = tech
     n_top = techniques[top_tech]
@@ -379,10 +382,7 @@ def getRequirement5(catalog, department):
             if artwork['Weight (kg)'] != '':
                 total_weight += float(artwork['Weight (kg)'])
 
-    oldest = sortOldest(arrayList).copy()
-    sortExpensive(arrayList)
-
-    return round(total_cost, 2), round(total_weight, 2), oldest, arrayList
+    return round(total_cost, 2), round(total_weight, 2), arrayList
 
 # Funciones utilizadas para comparar elementos dentro de una lista
 
@@ -413,7 +413,7 @@ def cmpIDs(id1, id2):
 
 
 def compareIDs(id1, id2):
-    if int(id1) ==  int(id2['ID']):
+    if int(id1) == int(id2['ID']):
         return 0
     else:
         return -1
@@ -441,7 +441,7 @@ def cmpOldest(artwork1, artwork2):
     if artwork1['Date'] == '' or artwork2['Date'] == '':
         return False
     else:
-        return artwork1['Date'] > artwork2['Date']
+        return artwork1['Date'] < artwork2['Date']
 
 
 def cmpExpensive(artwork1, artwork2):
@@ -475,3 +475,5 @@ def sortOldest(arrayList):
 
 def sortExpensive(arrayList):
     mg.sort(arrayList, cmpExpensive)
+
+    return arrayList

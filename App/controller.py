@@ -67,6 +67,16 @@ def sortArtworks(catalog):
     return model.sortArtWorks(catalog)
 
 
+def sortOldest(arrayList):
+
+    return model.sortOldest(arrayList)
+
+
+def sortExpensive(arrayList):
+
+    return model.sortExpensive(arrayList)
+
+
 def sortIDs(catalog):
     """
     Ordena los IDs como enteros
