@@ -1,5 +1,4 @@
-﻿from DISClib.DataStructures.arraylist import getElement
-import config as cf
+﻿import config as cf
 from itertools import islice
 from datetime import date
 from DISClib.ADT import list as lt
@@ -26,9 +25,12 @@ def newCatalog():
                'artworks': None,
                'ConstituentIDs': None}
 
-    catalog['artists'] = lt.newList(datastructure='ARRAY_LIST', cmpfunction=compareArtistName)
-    catalog['artworks'] = lt.newList(datastructure='ARRAY_LIST', cmpfunction=compareArworks)
-    catalog['ConstituentIDs'] = lt.newList(datastructure='ARRAY_LIST', cmpfunction=compareIDs)
+    catalog['artists'] = lt.newList(datastructure='ARRAY_LIST',
+                                    cmpfunction=compareArtistName)
+    catalog['artworks'] = lt.newList(datastructure='ARRAY_LIST',
+                                     cmpfunction=compareArworks)
+    catalog['ConstituentIDs'] = lt.newList(datastructure='ARRAY_LIST',
+                                           cmpfunction=compareIDs)
 
     return catalog
 
@@ -43,7 +45,7 @@ def addConstituentID(catalog, id, artwork=None, nationality=''):
     else:
         C_ID = newConstituentID(id, nationality)
         lt.addLast(IDs, C_ID)
-        C_ID = lt.lastElement(IDs) 
+        C_ID = lt.lastElement(IDs)
     if artwork is not None:
         lt.addLast(C_ID['artworks'], artwork)
 
@@ -53,7 +55,8 @@ def addArtist(catalog, artistinfo):
     Adiciona un artista al catálogo y agrega su ID
     """
     lt.addLast(catalog['artists'], artistinfo)
-    addConstituentID(catalog, artistinfo['ConstituentID'], nationality=artistinfo['Nationality'])
+    addConstituentID(catalog, artistinfo['ConstituentID'],
+                     nationality=artistinfo['Nationality'])
 
 
 def addArtwork(catalog, artwork):
@@ -68,8 +71,8 @@ def addArtwork(catalog, artwork):
         addConstituentID(catalog, id.strip(), artwork=artwork)
 
 
-
 # Funciones para creación de datos
+
 
 def newConstituentID(id, nationality):
     """
@@ -80,7 +83,6 @@ def newConstituentID(id, nationality):
     ID['artworks'] = lt.newList(datastructure='ARRAY_LIST')
     ID['nationality'] = nationality
     return ID
-
 
 
 # Algoritmos de busqueda
@@ -297,7 +299,7 @@ def getArtworksByTechnique(catalog, id, technique):
         artworks = lt.getElement(IDs, pos)['artworks']
         array = lt.newList(datastructure='ARRAY_LIST')
         for artwork in lt.iterator(artworks):
-            if artwork['Medium']==technique:
+            if artwork['Medium'] == technique:
                 lt.addLast(array, artwork)
         return array
     return None
@@ -311,7 +313,7 @@ def getArtistTechniques(catalog, artist):
     max = 0
     top_tech = None
     for tech in techniques:
-        if techniques[tech]>max:
+        if techniques[tech] > max:
             max = techniques[tech]
             top_tech = tech
     n_top = techniques[top_tech]
@@ -411,7 +413,7 @@ def cmpIDs(id1, id2):
 
 
 def compareIDs(id1, id2):
-    if int(id1) ==  int(id2['ID']):
+    if int(id1) == int(id2['ID']):
         return 0
     else:
         return -1
