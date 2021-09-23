@@ -149,6 +149,7 @@ def printTechniques(result1):
 
 def printMenu():
     print("\nBienvenido")
+    print('0- Cargar Datos')
     print("1- Consultar los artistas segun su año de nacimiento")
     print("2- Consultar las obras segun su fecha de adquisicion")
     print("3- Consultar las obras de un artista por tecnica")
@@ -167,14 +168,14 @@ Menu principal
 
 while True:
     printMenu()
-    catalog = initCatalog()
-    loadData(catalog)
-    print('\nCargando información de los archivos...')
-    print('Artistas cargados: ' + str(lt.size(catalog['artists'])))
-    print('Obras cargadas: ' + str(lt.size(catalog['artworks'])))
     inputs = int(input('\nSeleccione una opción para continuar\n'))
-
-    if inputs == 1:
+    if inputs == 0:
+        print('\nCargando información de los archivos...')
+        catalog = initCatalog()
+        loadData(catalog)
+        print('Artistas cargados: ' + str(lt.size(catalog['artists'])))
+        print('Obras cargadas: ' + str(lt.size(catalog['artworks'])))
+    elif inputs == 1:
         inicio = int(input('Ingrese el año inicial: '))
         fin = int(input('Ingrese el año final: '))
         controller.sortArtists(catalog)
@@ -206,8 +207,10 @@ while True:
         printNationality(result)
 
     elif inputs == 5:
-        pass
-
+        department = str(input('Ingrese el departamento del MoMA: '))
+        result = controller.getRequirement5(catalog, department)
+        print(result[0])
+        print(result[1])
     else:
         sys.exit(0)
 

@@ -123,12 +123,20 @@ def busquedaBinaria2(catalog, element):
     while low <= high:
         mid = (high + low) // 2
         cmp = lt.getElement(catalog, mid)
-        if date.fromisoformat(cmp['DateAcquired']) < element:
-            low = mid + 1
-        elif date.fromisoformat(cmp['DateAcquired']) > element:
-            high = mid - 1
+        marcador = 1
+        if cmp['DateAcquired'] == '':
+            if marcador == 1:
+                low = mid + 1
+            else:
+                high = mid - 1
         else:
-            return mid
+            if date.fromisoformat(cmp['DateAcquired']) < element:
+                low = mid + 1
+            elif date.fromisoformat(cmp['DateAcquired']) > element:
+                high = mid - 1
+                marcador = 2
+            else:
+                return mid
 
     return mid
 
@@ -163,6 +171,50 @@ def take(n, iterable):
     "Return first n items of the iterable as a list"
 
     return list(islice(iterable, n))
+
+
+def costArtwork(artwork):
+    """
+    Esta función retorna el costo total de transporte
+    por obra en un determinado departamento del MoMA.
+    """
+    # Weight
+    weight = artwork['Weight (kg)']
+    cost1 = 0
+    if weight != '':
+        cost1 = float(artwork['Weight (kg)']) * 72
+    # m2 or m3
+    count = 0
+    if artwork['Height (cm)'] == '':
+        height = 1
+    else:
+        height = float(artwork['Height (cm)']) / 1000
+        count += 1
+    if artwork['Length (cm)'] == '':
+        length = 1
+    else:
+        length = float(artwork['Length (cm)']) / 1000
+        count += 1
+    if artwork['Width (cm)'] == '':
+        width = 1
+    else:
+        width = float(artwork['Width (cm)']) / 1000
+        count += 1
+    if count == 3:
+        cost2 = (height * length * width) * 72
+        if cost2 > cost1:
+            return cost2
+        else:
+            return cost1
+    elif count == 2:
+        cost3 = (height * length * width) * 72
+        if cost3 > cost1:
+            return cost3
+        else:
+            return cost1
+    if cost1 == 0 and count == 0:
+        cost = 48
+        return cost
 
 
 # Funciones de consulta
@@ -312,6 +364,26 @@ def getTOP(catalog):
     return top10, arrayList
 
 
+def getRequirement5(catalog, department):
+    artworks = catalog['artworks']
+    arrayList = lt.newList(datastructure='ARRAY_LIST')
+    total_cost = 0
+    total_weight = 0
+
+    for artwork in lt.iterator(artworks):
+        if department.lower() in artwork['Department'].lower():
+            cost = costArtwork(artwork)
+            total_cost += cost
+            artwork['Cost'] = cost
+            lt.addLast(arrayList, artwork)
+            if artwork['Weight (kg)'] != '':
+                total_weight += float(artwork['Weight (kg)'])
+
+    oldest = sortOldest(arrayList).copy()
+    sortExpensive(arrayList)
+
+    return round(total_cost, 2), round(total_weight, 2), oldest, arrayList
+
 # Funciones utilizadas para comparar elementos dentro de una lista
 
 
@@ -346,6 +418,7 @@ def compareIDs(id1, id2):
     else:
         return -1
 
+
 def compareArtistName(artistname, artist):
     if (artistname.lower() in artist['DisplayName'].lower()):
         return 0
@@ -360,6 +433,23 @@ def compareArworks(artwork1, artwork2):
         return -1
 
 
+def cmpOldest(artwork1, artwork2):
+    """
+    Retorna True si el 'Date' de artwork1
+    es mayor que el de artwork2.
+    """
+    if artwork1['Date'] == '' or artwork2['Date'] == '':
+        return False
+    else:
+        return artwork1['Date'] > artwork2['Date']
+
+
+def cmpExpensive(artwork1, artwork2):
+    """
+    Retorna True si el 'Cost' de artwork1
+    es mayor que el de artwork2.
+    """
+    return artwork1['Cost'] > artwork2['Cost']
 
 
 # Funciones de ordenamiento
@@ -375,3 +465,13 @@ def sortArtWorks(catalog):
 
 def sortIDs(catalog):
     mg.sort(catalog['ConstituentIDs'], cmpIDs)
+
+
+def sortOldest(arrayList):
+    mg.sort(arrayList, cmpOldest)
+
+    return arrayList
+
+
+def sortExpensive(arrayList):
+    mg.sort(arrayList, cmpExpensive)
