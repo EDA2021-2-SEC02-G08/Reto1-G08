@@ -261,11 +261,22 @@ def getTOP(catalog):
     return top10, arrayList
 
 
-def getTransportation(catalog, department):
+def getRequirement5(catalog, department):
     artworks = catalog['artworks']
+    arrayList = lt.newList(datastructure='ARRAY_LIST')
+    total_cost = 0
+    total_weight = 0
+
     for artwork in lt.iterator(artworks):
         if artwork['Department'] == department:
             cost = costArtwork(artwork)
+            total_cost += cost
+            artwork['Cost'] = cost
+            lt.addLast(arrayList, artwork)
+            if artwork['Weight (kg)'] != '':
+                total_weight += int(artwork['Weight (kg)'])
+
+    return arrayList, total_cost, total_weight
 
 # Funciones utilizadas para comparar elementos dentro de una lista
 
@@ -291,6 +302,25 @@ def cmpArtworks(artwork1, artwork2):
         return artwork1 < artwork2
 
 
+def cmpOldest(artwork1, artwork2):
+    """
+    Retorna True si el 'Date' de artwork1
+    es mayor que el de artwork2.
+    """
+    if artwork1['Date'] == '' or artwork2['Date'] == '':
+        return False
+    else:
+        return artwork1['Date'] > artwork2['Date']
+
+
+def cmpExpensive(artwork1, artwork2):
+    """
+    Retorna True si el 'Cost' de artwork1
+    es mayor que el de artwork2.
+    """
+    return artwork1['Cost'] > artwork2['Cost']
+
+
 # Funciones de ordenamiento
 
 
@@ -300,3 +330,11 @@ def sortArtists(catalog):
 
 def sortArtWorks(catalog):
     mg.sort(catalog['artworks'], cmpArtworks)
+
+
+def sortOldest(arrayList):
+    mg.sort(arrayList, cmpOldest)
+
+
+def sortExpensive(arrayList):
+    mg.sort(arrayList, cmpExpensive)
