@@ -43,7 +43,7 @@ def addConstituentID(catalog, id, artwork=None, nationality=''):
     else:
         C_ID = newConstituentID(id, nationality)
         lt.addLast(IDs, C_ID)
-        C_ID = lt.lastElement(IDs, C_ID) 
+        C_ID = lt.lastElement(IDs) 
     if artwork is not None:
         lt.addLast(C_ID['artworks'], artwork)
 
@@ -53,7 +53,7 @@ def addArtist(catalog, artistinfo):
     Adiciona un artista al catálogo y agrega su ID
     """
     lt.addLast(catalog['artists'], artistinfo)
-    addConstituentID(catalog, artistinfo['ConstituentID'], artistinfo['Nationality'])
+    addConstituentID(catalog, artistinfo['ConstituentID'], nationality=artistinfo['Nationality'])
 
 
 def addArtwork(catalog, artwork):
@@ -65,7 +65,7 @@ def addArtwork(catalog, artwork):
     artists_id = artists_id.split(', ')
 
     for id in artists_id:
-        addConstituentID(catalog, id.strip(), artwork)
+        addConstituentID(catalog, id.strip(), artwork=artwork)
 
 
 
@@ -79,7 +79,7 @@ def newConstituentID(id, nationality):
     ID['ID'] = id
     ID['artworks'] = lt.newList(datastructure='ARRAY_LIST')
     ID['nationality'] = nationality
-    return id
+    return ID
 
 
 
@@ -201,12 +201,6 @@ def getArtWorks(catalog, inicio, fin):
 
     return arrayList
 
-def getTechniques(catalog, artist):
-    """
-    Retorna las técnicas empleadas por un artista
-    """
-    pass
-
 
 def getArtistID(catalog, artistname):
     artists = catalog['artists']
@@ -228,7 +222,7 @@ def getTechniques(catalog, artist):
         artworks = lt.getElement(IDs, pos)['artworks']
         techniques = {}
         count = lt.size(artworks)
-        for artwork in artworks:
+        for artwork in lt.iterator(artworks):
             technique = artwork['Medium']
             if technique == '':
                 pass
@@ -249,8 +243,8 @@ def getArtworksByTechnique(catalog, id, technique):
         pos = busquedaBinaria3(IDs, id)
         artworks = lt.getElement(IDs, pos)['artworks']
         array = lt.newList(datastructure='ARRAY_LIST')
-        for artwork in artworks:
-            if artworks['Medium']==technique:
+        for artwork in lt.iterator(artworks):
+            if artwork['Medium']==technique:
                 lt.addLast(array, artwork)
         return array
     return None
@@ -267,8 +261,9 @@ def getArtistTechniques(catalog, artist):
         if techniques[tech]>max:
             max = techniques[tech]
             top_tech = tech
+    n_top = techniques[top_tech]
     topArtworks = getArtworksByTechnique(catalog, id, top_tech)
-    return count, techniques, topArtworks, top_tech
+    return count, techniques, topArtworks, top_tech, n_top
 
 
 def getTOP1(catalog, top1):
@@ -346,13 +341,13 @@ def cmpIDs(id1, id2):
 
 
 def compareIDs(id1, id2):
-    if int(id1['ID']) ==  int(id2['ID']):
+    if int(id1) ==  int(id2['ID']):
         return 0
     else:
         return -1
 
 def compareArtistName(artistname, artist):
-    if (artistname.lower() in artist['DisplayName'].lower):
+    if (artistname.lower() in artist['DisplayName'].lower()):
         return 0
     else:
         return -1
