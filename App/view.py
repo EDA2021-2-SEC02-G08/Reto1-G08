@@ -139,6 +139,10 @@ def printNationality(result):
     artworkInfo(top1)
 
 
+def printTechniques(result1):
+    pass
+
+
 def printMenu():
     print("\nBienvenido")
     print("1- Consultar los artistas segun su año de nacimiento")
@@ -181,7 +185,16 @@ while True:
         printDateAcquired(result)
 
     elif inputs == 3:
-        pass
+        artista = str(input('Ingrese el artista a examinar: '))
+        num, techs, artworks, top_tech = controller.getArtistTechniques(catalog, artista)
+        num_techs = len(techs)
+        print('\n' + artista + 'tiene ' + str(num) + 
+              ' piezas a su nombre en el museo.')
+        print('Hay un total de ' + num_techs + 'técnicas a su nombre.')
+        print('La técnica más utilizada por este/esta artista es ' + top_tech 
+              + 'con un total de ' + num_techs + 'obras con esta técnica.')
+        printTechniques(artworks)
+
 
     elif inputs == 4:
         result = controller.getTOP(catalog)

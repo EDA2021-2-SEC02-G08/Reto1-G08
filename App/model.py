@@ -219,7 +219,7 @@ def getTechniques(catalog, artist):
     id = getArtistID(catalog, artist)
     if id is not None:
         pos = busquedaBinaria3(IDs, id)
-        artworks = lt.getElement(catalog, pos)['artworks']
+        artworks = lt.getElement(IDs, pos)['artworks']
         techniques = {}
         count = lt.size(artworks)
         for artwork in artworks:
@@ -230,25 +230,39 @@ def getTechniques(catalog, artist):
                 techniques[technique] = 1
             else:
                 techniques[technique] += 1
-        return count, techniques
+        return count, techniques, id
     return None
 
 
-def getArtworksByTechnique(catalog, artist, technique):
+def getArtworksByTechnique(catalog, id, technique):
     """
     Retorna las obras de un artista con una técnica determinada.
     """
     IDs = catalog['ConstituentIDs']
-    id = getArtistID(catalog, artist)
     if id is not None:
         pos = busquedaBinaria3(IDs, id)
-        artworks = lt.getElement(catalog, pos)['artworks']
+        artworks = lt.getElement(IDs, pos)['artworks']
         array = lt.newList(datastructure='ARRAY_LIST')
         for artwork in artworks:
             if artworks['Medium']==technique:
                 lt.addLast(array, artwork)
         return array
     return None
+
+
+def getArtistTechniques(catalog, artist):
+    """
+    Examina la obra de un artista por técnica.
+    """
+    count, techniques, id = getTechniques(catalog, artist)
+    max = 0
+    top_tech = None
+    for tech in techniques:
+        if techniques[tech]>max:
+            max = techniques[tech]
+            top_tech = tech
+    topArtworks = getArtworksByTechnique(catalog, id, top_tech)
+    return count, techniques, topArtworks, top_tech
 
 
 def getTOP1(catalog, top1):
