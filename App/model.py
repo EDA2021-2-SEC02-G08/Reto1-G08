@@ -134,6 +134,50 @@ def take(n, iterable):
     return list(islice(iterable, n))
 
 
+def costArtwork(artwork):
+    """
+    Esta función retorna el costo total de transporte
+    por obra en un determinado departamento del MoMA.
+    """
+    # Weight
+    weight = artwork['Weight (kg)']
+    cost1 = 0
+    if weight != '':
+        cost1 = int(artwork['Weight (kg)']) * 72
+    # m2 or m3
+    count = 0
+    if artwork['Height (cm)'] != '':
+        height = int(artwork['Height (cm)']) / 1000
+        count += 1
+    else:
+        height = 1
+    if artwork['Length (cm)'] != '':
+        length = int(artwork['Length (cm)']) / 1000
+        count += 1
+    else:
+        length = 1
+    if artwork['Width (cm)'] != '':
+        width = int(artwork['Width (cm)']) / 1000
+        count += 1
+    else:
+        width = 1
+    if count == 3:
+        cost2 = (height * length * width) * 72
+        if cost2 > cost1:
+            return cost2
+        else:
+            return cost1
+    elif count == 2:
+        cost3 = (height * length * width) * 72
+        if cost3 > cost1:
+            return cost3
+        else:
+            return cost1
+    if cost1 == 0 and count == 0:
+        cost = 48
+        return cost
+
+
 # Funciones de consulta
 
 
@@ -216,6 +260,12 @@ def getTOP(catalog):
 
     return top10, arrayList
 
+
+def getTransportation(catalog, department):
+    artworks = catalog['artworks']
+    for artwork in lt.iterator(artworks):
+        if artwork['Department'] == department:
+            cost = costArtwork(artwork)
 
 # Funciones utilizadas para comparar elementos dentro de una lista
 
