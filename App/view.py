@@ -162,9 +162,9 @@ while True:
     printMenu()
     inputs = int(input('\nSeleccione una opción para continuar\n'))
     if inputs == 0:
+        print('\nCargando información de los archivos...')
         catalog = initCatalog()
         loadData(catalog)
-        print('\nCargando información de los archivos...')
         print('Artistas cargados: ' + str(lt.size(catalog['artists'])))
         print('Obras cargadas: ' + str(lt.size(catalog['artworks'])))
     elif inputs == 1:

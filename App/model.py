@@ -115,12 +115,20 @@ def busquedaBinaria2(catalog, element):
     while low <= high:
         mid = (high + low) // 2
         cmp = lt.getElement(catalog, mid)
-        if date.fromisoformat(cmp['DateAcquired']) < element:
-            low = mid + 1
-        elif date.fromisoformat(cmp['DateAcquired']) > element:
-            high = mid - 1
+        marcador = 1
+        if cmp['DateAcquired'] == '':
+            if marcador == 1:
+                low = mid + 1
+            else:
+                high = mid - 1
         else:
-            return mid
+            if date.fromisoformat(cmp['DateAcquired']) < element:
+                low = mid + 1
+            elif date.fromisoformat(cmp['DateAcquired']) > element:
+                high = mid - 1
+                marcador = 2
+            else:
+                return mid
 
     return mid
 
