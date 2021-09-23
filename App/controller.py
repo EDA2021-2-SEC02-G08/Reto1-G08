@@ -77,6 +77,13 @@ def sortExpensive(arrayList):
     return model.sortExpensive(arrayList)
 
 
+def sortIDs(catalog):
+    """
+    Ordena los IDs como enteros
+    """
+    return model.sortIDs(catalog)
+
+
 # Funciones de consulta sobre el catálogo
 
 
@@ -99,6 +106,13 @@ def getTOP(catalog):
     Retorna el TOP de nacionalidades por obra.
     """
     return model.getTOP(catalog)
+
+
+def getArtistTechniques(catalog, artist):
+    """
+    Retorna las técnicas de un artista
+    """
+    return model.getArtistTechniques(catalog, artist)
 
 
 def getRequirement5(catalog, department):

@@ -1,4 +1,5 @@
-﻿import config as cf
+﻿from DISClib.DataStructures.arraylist import getElement
+import config as cf
 from itertools import islice
 from datetime import date
 from DISClib.ADT import list as lt
@@ -22,57 +23,64 @@ def newCatalog():
     guardar todos los artistas y crea una lista vacia para las obras.
     """
     catalog = {'artists': None,
-               'id': {},
-               'artworks': None}
+               'artworks': None,
+               'ConstituentIDs': None}
 
-    catalog['artists'] = lt.newList(datastructure='ARRAY_LIST')
-    catalog['artworks'] = lt.newList(datastructure='ARRAY_LIST')
+    catalog['artists'] = lt.newList(datastructure='ARRAY_LIST', cmpfunction=compareArtistName)
+    catalog['artworks'] = lt.newList(datastructure='ARRAY_LIST', cmpfunction=compareArworks)
+    catalog['ConstituentIDs'] = lt.newList(datastructure='ARRAY_LIST', cmpfunction=compareIDs)
 
     return catalog
 
 
 # Funciones para agregar informacion al catalogo
 
+def addConstituentID(catalog, id, artwork=None, nationality=''):
+    IDs = catalog['ConstituentIDs']
+    posID = lt.isPresent(IDs, id)
+    if posID > 0:
+        C_ID = lt.getElement(IDs, posID)
+    else:
+        C_ID = newConstituentID(id, nationality)
+        lt.addLast(IDs, C_ID)
+        C_ID = lt.lastElement(IDs) 
+    if artwork is not None:
+        lt.addLast(C_ID['artworks'], artwork)
 
-def addArtist(catalog, artist):
-    lt.addLast(catalog['artists'], artist)
+
+def addArtist(catalog, artistinfo):
+    """
+    Adiciona un artista al catálogo y agrega su ID
+    """
+    lt.addLast(catalog['artists'], artistinfo)
+    addConstituentID(catalog, artistinfo['ConstituentID'], nationality=artistinfo['Nationality'])
 
 
 def addArtwork(catalog, artwork):
+    """
+    Adiciona una obra al catálogo y la asocia a los IDs de sus artistas.
+    """
     lt.addLast(catalog['artworks'], artwork)
     artists_id = artwork['ConstituentID'].replace('[', '').replace(']', '')
+    artists_id = artists_id.split(', ')
 
-    if ',' in artists_id:
-        lista = artists_id.split(', ')
-        for artist_id in lista:
-            addID(catalog, artist_id, artwork)
-    else:
-        addID(catalog, artists_id, artwork)
+    for id in artists_id:
+        addConstituentID(catalog, id.strip(), artwork=artwork)
 
 
-def addID(catalog, artist_id, artwork):
-    id = catalog['id']
 
-    if artist_id not in id.keys():
-        for artist in lt.iterator(catalog['artists']):
-            if artist['ConstituentID'] == artist_id:
-                nacionalidad = artist['Nationality']
-                id[artist_id] = createID(nacionalidad)
-                break
-        lt.addLast(id[artist_id]['artworks'], artwork)
-    else:
-        lt.addLast(id[artist_id]['artworks'], artwork)
+# Funciones para creación de datos
 
+def newConstituentID(id, nationality):
+    """
+    Crea una nueva estructura para modelar las obras de un artista
+    """
+    ID = {'ID': "", 'artworks': None, 'nationality': ""}
+    ID['ID'] = id
+    ID['artworks'] = lt.newList(datastructure='ARRAY_LIST')
+    ID['nationality'] = nationality
+    return ID
 
-# Funciones para creacion de datos
-
-
-def createID(nacionalidad):
-    id = {'nacionalidad': '', 'artworks': None}
-    id['nacionalidad'] = nacionalidad
-    id['artworks'] = lt.newList(datastructure='ARRAY_LIST')
-
-    return id
 
 
 # Algoritmos de busqueda
@@ -129,6 +137,29 @@ def busquedaBinaria2(catalog, element):
                 marcador = 2
             else:
                 return mid
+
+    return mid
+
+
+def busquedaBinaria3(catalog, element):
+    """
+    Retorna la posición de un elemento en una lista organizada.
+    Esta función encuentra el ID de un artista.
+    En caso de no existir, retorna la última posición encontrada.
+    """
+    low = 0
+    high = lt.size(catalog) - 1
+    mid = 0
+
+    while low <= high:
+        mid = (high + low) // 2
+        cmp = lt.getElement(catalog, mid)
+        if int(cmp['ID']) < element:
+            low = mid + 1
+        elif int(cmp['ID']) > element:
+            high = mid - 1
+        else:
+            return mid
 
     return mid
 
@@ -224,16 +255,80 @@ def getArtWorks(catalog, inicio, fin):
     return arrayList
 
 
+def getArtistID(catalog, artistname):
+    artists = catalog['artists']
+    pos = lt.isPresent(artists, artistname)
+    if pos > 0:
+        artist = lt.getElement(artists, pos)
+        return int(artist['ConstituentID'])
+    return None
+
+
+def getTechniques(catalog, artist):
+    """
+    Retorna las técnicas empleadas por un artista
+    """
+    IDs = catalog['ConstituentIDs']
+    id = getArtistID(catalog, artist)
+    if id is not None:
+        pos = busquedaBinaria3(IDs, id)
+        artworks = lt.getElement(IDs, pos)['artworks']
+        techniques = {}
+        count = lt.size(artworks)
+        for artwork in lt.iterator(artworks):
+            technique = artwork['Medium']
+            if technique == '':
+                pass
+            elif technique not in techniques.keys():
+                techniques[technique] = 1
+            else:
+                techniques[technique] += 1
+        return count, techniques, id
+    return None
+
+
+def getArtworksByTechnique(catalog, id, technique):
+    """
+    Retorna las obras de un artista con una técnica determinada.
+    """
+    IDs = catalog['ConstituentIDs']
+    if id is not None:
+        pos = busquedaBinaria3(IDs, id)
+        artworks = lt.getElement(IDs, pos)['artworks']
+        array = lt.newList(datastructure='ARRAY_LIST')
+        for artwork in lt.iterator(artworks):
+            if artwork['Medium']==technique:
+                lt.addLast(array, artwork)
+        return array
+    return None
+
+
+def getArtistTechniques(catalog, artist):
+    """
+    Examina la obra de un artista por técnica.
+    """
+    count, techniques, id = getTechniques(catalog, artist)
+    max = 0
+    top_tech = None
+    for tech in techniques:
+        if techniques[tech]>max:
+            max = techniques[tech]
+            top_tech = tech
+    n_top = techniques[top_tech]
+    topArtworks = getArtworksByTechnique(catalog, id, top_tech)
+    return count, techniques, topArtworks, top_tech, n_top
+
+
 def getTOP1(catalog, top1):
     """
     Retorna un arrayList con las obras de la nacionalidad
     mas recurrente en el MoMA.
     """
-    id = catalog['id']
+    IDs = catalog['ConstituentIDs']
     arrayList = lt.newList(datastructure='ARRAY_LIST')
 
-    for artist in id.values():
-        nacionalidad = artist['nacionalidad']
+    for artist in lt.iterator(IDs):
+        nacionalidad = artist['nationality']
         if nacionalidad == top1:
             for artwork in lt.iterator(artist['artworks']):
                 lt.addLast(arrayList, artwork)
@@ -248,11 +343,11 @@ def getTOP(catalog):
     nacionalidad más recurrente en el MoMA.
     """
     auxiliar = {}
-    id = catalog['id']
+    IDs = catalog['ConstituentIDs']
 
-    for artist in id.values():
+    for artist in lt.iterator(IDs):
         size = lt.size(artist['artworks'])
-        nacionalidad = artist['nacionalidad']
+        nacionalidad = artist['nationality']
         if nacionalidad == '' or nacionalidad == 'Nationality unknown':
             pass
         else:
@@ -311,6 +406,31 @@ def cmpArtworks(artwork1, artwork2):
         return artwork1 < artwork2
 
 
+def cmpIDs(id1, id2):
+    return int(id1['ID']) < int(id2['ID'])
+
+
+def compareIDs(id1, id2):
+    if int(id1) ==  int(id2['ID']):
+        return 0
+    else:
+        return -1
+
+
+def compareArtistName(artistname, artist):
+    if (artistname.lower() in artist['DisplayName'].lower()):
+        return 0
+    else:
+        return -1
+
+
+def compareArworks(artwork1, artwork2):
+    if int(artwork1['ObjectID']) == int(artwork2['ObjectID']):
+        return 0
+    else:
+        return -1
+
+
 def cmpOldest(artwork1, artwork2):
     """
     Retorna True si el 'Date' de artwork1
@@ -339,6 +459,10 @@ def sortArtists(catalog):
 
 def sortArtWorks(catalog):
     mg.sort(catalog['artworks'], cmpArtworks)
+
+
+def sortIDs(catalog):
+    mg.sort(catalog['ConstituentIDs'], cmpIDs)
 
 
 def sortOldest(arrayList):

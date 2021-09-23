@@ -139,6 +139,14 @@ def printNationality(result):
     artworkInfo(top1)
 
 
+def printTechniques(result1):
+    print('Las obras con esta técnica son:')
+    for artwork in lt.iterator(result1):
+        print('Título: ' + artwork['Title'] + ' Fecha: ' + artwork['Date'] + 
+              ' Medio: ' + artwork['Medium'] + ' Dimensiones: ' + artwork['Dimensions'])
+
+
+
 def printMenu():
     print("\nBienvenido")
     print('0- Cargar Datos')
@@ -182,7 +190,17 @@ while True:
         printDateAcquired(result)
 
     elif inputs == 3:
-        pass
+        artista = str(input('Ingrese el artista a examinar: '))
+        controller.sortIDs(catalog)
+        num, techs, artworks, top_tech, n_top = controller.getArtistTechniques(catalog, artista)
+        num_techs = len(techs)
+        print('\n' + artista + 'tiene ' + str(num) + 
+              ' piezas a su nombre en el museo.')
+        print('Hay un total de ' + str(num_techs) + ' técnicas a su nombre.')
+        print('La técnica más utilizada por este/esta artista es ' + top_tech 
+              + ' con un total de ' + str(n_top) + ' obras con esta técnica.')
+        printTechniques(artworks)
+
 
     elif inputs == 4:
         result = controller.getTOP(catalog)
